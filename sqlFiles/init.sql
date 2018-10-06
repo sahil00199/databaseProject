@@ -94,6 +94,7 @@ create table question(
 	qID serial,
 	iID varchar(20),
 	problem varchar(1000),
+	isObjective bool,
 	foreign key(iID) references instructor
 		on delete cascade,
 	primary key(qID)
