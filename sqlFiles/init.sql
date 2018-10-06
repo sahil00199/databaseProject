@@ -16,93 +16,87 @@ drop table instructor;
 drop table student;
 
 create table student(
-	ID varchar(20),
+	sID varchar(20),
 	name varchar(20),
 	email varchar(20),
 	password varchar(20),
-	primary key(ID)
+	primary key(sID)
 );
 	
 
 create table instructor(
-	ID serial,
+	iID varchar(20),
 	name varchar(20),
 	email varchar(20),
 	password varchar(20),
-	primary key(ID)
+	primary key(iID)
 );
 
 create table course(
-	ID serial,
+	courseID serial,
 	name varchar(50),
-	primary key(ID)
+	primary key(courseID)
 );
 
 create table topic(
-	ID serial,
+	topicID serial,
 	courseID integer,
 	name varchar(50),
-	foreign key(courseID) references course(ID)
+	foreign key(courseID) references course
 		on delete cascade,
-	primary key(ID)
+	primary key(topicID)
 );
 
 create table section(
-	ID serial,
+	secID serial,
 	courseID integer,
 	year numeric(4,0),
 	semester varchar(10),
-	foreign key(courseID) references course(ID)
+	foreign key(courseID) references course
 		on delete cascade,
-	primary key(ID),
+	primary key(secID),
 	check (semester in ('Fall','Spring','Summer','Winter'))
 );
 
 create table takes(
-	sID integer,
+	sID varchar(20),
 	secID integer,
-	courseID integer,
-	year numeric(4,0),
-	semester varchar(10),
 	grade varchar(3),
-	foreign key(sID) references student(ID)
+	foreign key(sID) references student
 		on delete cascade,
-	foreign key(secID, courseID, year, semester) references section(ID, courseID, year, semester)
+	foreign key(secID) references section
 		on delete cascade,
 	primary key(sID,secID)
 );
 
 create table teaches(
-	iID integer,
+	iID varchar(20),
 	secID integer,
-	courseID integer,
-	year numeric(4,0),
-	semester varchar(10),
-	foreign key(iID) references instructor(ID)
+	foreign key(iID) references instructor
 		on delete cascade,
-	foreign key(secID, courseID, year, semester) references section(ID, courseID, year, semester)
+	foreign key(secID) references section
 		on delete cascade,
 	primary key(iID,secID)
 );
 
 create table quiz(
-	ID serial,
+	qzID serial,
 	name varchar(20),
 	secID integer,
 	start timestamp,
 	duration interval,
-	foreign key(secID) references section(ID)
+	foreign key(secID) references section
 		on delete cascade,
-	primary key(ID,secID)
+	primary key(qzID,secID)
 );
 
 create table question(
-	ID serial,
+	qID serial,
 	iID varchar(20),
 	problem varchar(1000),
-	foreign key(iID) references instructor(ID)
+	foreign key(iID) references instructor
 		on delete cascade,
-	primary key(ID)
+	primary key(qID)
 );
 
 create table option(
@@ -110,7 +104,7 @@ create table option(
 	isCorrect bool,
 	optNum integer,
 	opt varchar(1000),
-	foreign key(qID) references question(ID)
+	foreign key(qID) references question
 		on delete cascade,
 	primary key(qID,optNum)
 );
@@ -120,9 +114,9 @@ create table quizQuestion(
 	secID integer,
 	qzID integer,
 	maxMarks float(2),
-	foreign key(qID) references question(ID)
+	foreign key(qID) references question
 		on delete cascade,
-	foreign key(qzID, secID) references quiz(ID, secID)
+	foreign key(qzID, secID) references quiz
 		on delete set null,
 	primary key(qzID, secID, qID)
 );
@@ -130,16 +124,15 @@ create table quizQuestion(
 create table questionTopic(
 	qID integer,
 	topicID integer,
-	courseID integer,
-	foreign key (qID) references question(ID)
+	foreign key (qID) references question
 		on delete set null,
-	foreign key (topicID, courseID) references topic(ID, courseID)
+	foreign key (topicID) references topic
 		on delete set null,
-	primary key(qID, topicID, courseID)
+	primary key(qID, topicID)
 );
 
 create table response(
-	sID integer,
+	sID varchar(20),
 	qID integer,
 	qzID integer,
 	secID integer,
@@ -147,7 +140,7 @@ create table response(
 	timeTaken interval,
 	isAttempted bool,
 	marksObtained float(2),
-	foreign key(sID) references student(ID)
+	foreign key(sID) references student
 		on delete cascade,
 	foreign key(qzID,secID, qID) references quizQuestion
 		on delete set null,
@@ -155,25 +148,25 @@ create table response(
 );
 
 create table TA(
-	ID varchar(20),
+	taID varchar(20),
 	name varchar(20),
 	email varchar(20),
 	password varchar(20),
-	primary key(ID)
+	primary key(taID)
 );
 
 create table taSection(
-	taID integer,
+	taID varchar(20),
 	secID integer,
-	foreign key(secID) references section(ID)
+	foreign key(secID) references section
 		on delete cascade,
-	foreign key(taID) references ta(ID)
+	foreign key(taID) references ta
 		on delete cascade,
 	primary key(taID, secID)
 );
 
 create table checked(
-	taID integer,
+	taID varchar(20),
 	secID integer,
 	qID integer,
 	qzID integer,
