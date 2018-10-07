@@ -16,19 +16,19 @@ drop table instructor;
 drop table student;
 
 create table student(
-	sID varchar(20),
-	name varchar(20),
-	email varchar(20),
-	password varchar(20),
+	sID varchar(50) not null,
+	name varchar(50),
+	email varchar(50),
+	password varchar(50) not null,
 	primary key(sID)
 );
 	
 
 create table instructor(
-	iID varchar(20),
-	name varchar(20),
-	email varchar(20),
-	password varchar(20),
+	iID varchar(50) not null,
+	name varchar(50),
+	email varchar(50),
+	password varchar(50) not null,
 	primary key(iID)
 );
 
@@ -59,7 +59,7 @@ create table section(
 );
 
 create table takes(
-	sID varchar(20),
+	sID varchar(50),
 	secID integer,
 	grade varchar(3),
 	foreign key(sID) references student
@@ -70,7 +70,7 @@ create table takes(
 );
 
 create table teaches(
-	iID varchar(20),
+	iID varchar(50),
 	secID integer,
 	foreign key(iID) references instructor
 		on delete cascade,
@@ -81,7 +81,7 @@ create table teaches(
 
 create table quiz(
 	qzID serial,
-	name varchar(20),
+	name varchar(50),
 	secID integer,
 	start timestamp,
 	duration interval,
@@ -92,7 +92,7 @@ create table quiz(
 
 create table question(
 	qID serial,
-	iID varchar(20),
+	iID varchar(50),
 	problem varchar(1000),
 	isObjective bool,
 	foreign key(iID) references instructor
@@ -133,11 +133,11 @@ create table questionTopic(
 );
 
 create table response(
-	sID varchar(20),
+	sID varchar(50),
 	qID integer,
 	qzID integer,
 	secID integer,
-	answer varchar(2000),
+	answer varchar(5000),
 	timeTaken interval,
 	isAttempted bool,
 	marksObtained float(2),
@@ -149,15 +149,15 @@ create table response(
 );
 
 create table TA(
-	taID varchar(20),
-	name varchar(20),
-	email varchar(20),
-	password varchar(20),
+	taID varchar(50) not null,
+	name varchar(50),
+	email varchar(50),
+	password varchar(50) not null,
 	primary key(taID)
 );
 
 create table taSection(
-	taID varchar(20),
+	taID varchar(50),
 	secID integer,
 	foreign key(secID) references section
 		on delete cascade,
@@ -167,7 +167,7 @@ create table taSection(
 );
 
 create table checked(
-	taID varchar(20),
+	taID varchar(50),
 	secID integer,
 	qID integer,
 	qzID integer,
@@ -179,3 +179,4 @@ create table checked(
 	primary key(taID, secID, qID, qzID)
 );
 
+	
