@@ -33,14 +33,14 @@ create table instructor(
 );
 
 create table course(
-	courseID serial,
+	courseID varchar(10),
 	name varchar(50),
 	primary key(courseID)
 );
 
 create table topic(
 	topicID serial,
-	courseID integer,
+	courseID varchar(10),
 	name varchar(50),
 	foreign key(courseID) references course
 		on delete cascade,
@@ -49,7 +49,7 @@ create table topic(
 
 create table section(
 	secID serial,
-	courseID integer,
+	courseID varchar(10),
 	year numeric(4,0),
 	semester varchar(10),
 	foreign key(courseID) references course
