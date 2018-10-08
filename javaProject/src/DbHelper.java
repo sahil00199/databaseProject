@@ -141,7 +141,7 @@ public class DbHelper {
 				stmt.setString(i+1, (String)param);
 			}
 			else if(type.equals(ParamType.INT)) {
-				stmt.setInt(i+1, (Integer)param);
+				stmt.setInt(i+1, Integer.parseInt((String)param));
 			}
 		}
 	}

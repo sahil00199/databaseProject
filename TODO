@@ -27,8 +27,17 @@
 
 INSTRUCTOR:
 
--- check session and role in every servlet
--- create new course
+xx check session and role in every servlet
+xx create new course
+-- with every new section created, we need to find the threadid and then add to teaches
+-- add drop down for semesters
+-- in drop down for course, display the name as well
 -- course page on clicking on course
 -- add question
+-- check login in AllSection
+
+
+
+
+
 

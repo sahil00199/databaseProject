@@ -1,5 +1,6 @@
+
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class AllSections
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/AllSections")
-public class AllSections extends HttpServlet {
+@WebServlet("/LogoutServlet")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AllSections() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,18 +28,12 @@ public class AllSections extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("id") == null) { //not logged in
-			response.sendRedirect("LoginServlet");
+		if (session.getAttribute("id") == null)//not logged in anyway
+		{
+			response.sendRedirect("login.html");
 		}
-		String instructorID = (String) session.getAttribute("id");
-		String query = 
-				"select courseID, year, semester from section as s, teaches as t where iID = ? and s.secid = t.secid;";
-		String res = DbHelper.executeQueryJson(query, 
-				new DbHelper.ParamType[] {DbHelper.ParamType.STRING}, 
-				new String[] {instructorID});
-		
-		PrintWriter out = response.getWriter();
-		out.print(res);
+		session.invalidate();
+		response.sendRedirect("login.html");
 	}
 
 	/**
@@ -47,13 +42,6 @@ public class AllSections extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
-	
-	/**
-	 * For testing other methods in this class.
-	 */
-	public static void main(String[] args) throws ServletException, IOException {
-		new AllSections().doGet(null, null);
 	}
 
 }

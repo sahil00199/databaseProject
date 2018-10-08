@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Home
@@ -25,6 +26,17 @@ public class InstructorHome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null)//not logged in!
+		{
+			response.sendRedirect("login.html");
+			return;
+		}
+		if (!session.getAttribute("role").equals("instructor"))
+		{
+			response.sendRedirect("illegalAccess.html");
+			return;
+		}
 		String html = "<html><head><title>Instructor's Home</title>" + 
 				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
 				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
@@ -38,7 +50,9 @@ public class InstructorHome extends HttpServlet {
 				"<body>" + 
 				"    <button onclick=\"resetTable()\">Home</button><br><br>" +
 				"    <div id=\"content\">" +
-				"	 </div> " ;
+				"	 </div> " +
+				"<a href = \"LogoutServlet\"> Logout </a>" +
+				"</body></html>";
 		response.setContentType("text/html");
 		response.getWriter().print(html);
 	}

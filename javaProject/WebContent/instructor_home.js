@@ -28,7 +28,7 @@ $(document).ready(function() {
     $("#linker").click(function(e)
     {
         e.preventDefault();
-        showCreateConversation();
+        showCreateSection();
     }  );
     $('#contentTable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -85,7 +85,7 @@ function resetTable()
     "<th>Year</th>" +
     "<th>Semester</th>" +
     "</tr></thead></table>  <br>"+
-    //" <a id=\"linker\" href=\"google.com\">CreateConversation</a>" +
+    " <a id=\"linker\" href=\"google.com\">CreateConversation</a>" +
     "<div id=\"newConvo\"></div><br><br>" +
     "</body>" +
     "</html>";
@@ -150,37 +150,13 @@ function resetTable()
        $("#linker").click(function(e)
                 {
                     e.preventDefault();
-                    showCreateConversation();
+                    showCreateSection();
                 }  );
 }
 
 function modifyTable(courseid)
 {
-//     document.getElementById("content").innerHTML = "<table id = \"contentTable\" class = \"display\">" +
-//     "<thead><tr>" +
-//     "<th>User Id</th>" +
-//     "<th>Timestamp</th>" +
-//     "<th>Text</th>" +
-//     "</tr></thead></table> + <br>"
-//     +
-//     "<form id=newmessage>" +
-//     " Enter your message: <input type=\"text\" id = \"message\">"+
-// "<input type=\"hidden\" name=\"courseid\" value=\""+courseid+"\" />"+
-// //"<input type=\"submit\""
-// "<input class=\"button\" name=\"submit\" type=\"submit\" " +
-// "value=\"Submit\" />"+
-// "</form>";
-//     contentTable = $("#contentTable").DataTable({
-//         columns: [{data:"courseid"}, {data:"timestamp"}, {data:"text"}]
-//     });
-//     contentTable.ajax.url("ConversationDetail?other_id=" + courseid).load();
-//     $("#newmessage").on('submit', function ()
-//     {
-//         createNewMessage(courseid,$("#message").val());
-//         return false;
-//     });
-
-    var xhttp = new XMLHttpRequest();
+	var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function()
     {
         if (this.readyState == 4 && this.status == 200)
@@ -219,7 +195,7 @@ function modifyTable(courseid)
                  $("#linker").click(function(e)
                             {
                                 e.preventDefault();
-                                showCreateConversation();
+                                showCreateSection();
                             }  );
 
         }
@@ -244,16 +220,18 @@ function autohelper(request,response)
     
 }
 
-function showCreateConversation()
+function showCreateSection()
 {
-    var currentHTML =     "<form id=\"newconversation\" onsubmit=\"createNewConversation(this.conversation.value)\">" +
-    " Enter the courseid: <input type=\"text\" id = \"conversation\" name=\"courseid\">"+
+    var currentHTML =     "<form id=\"newconversation\" onsubmit=\"createNewConversation(this.course.value, this.year.value, this.semester.value)\">" +
+    " Enter the courseid: <input type=\"text\" id = \"course\" name=\"courseid\">"+
+    " Enter the year: <input type=\"text\" id = \"year\" name=\"year\">"+
+    " Enter the semester: <input type=\"text\" id = \"semester\" name=\"semester\">"+
     //"<input type=\"submit\""
     "<input class=\"button\" name=\"submit\" type=\"submit\" " +
     "value=\"Submit\" />"+
     "</form>";
     document.getElementById("newConvo").innerHTML = currentHTML;
-    $("#conversation").autocomplete({
+    $("#course").autocomplete({
         source : function(request,response){
             var xhttp;
             xhttp = new XMLHttpRequest();
@@ -263,34 +241,13 @@ function showCreateConversation()
                      response(json.data);
                  }
                  }
-            xhttp.open("GET", "AutoCompleteUser?partial="+request.term+"&location=bottom", true);
+            xhttp.open("GET", "AutoCompleteSection?partial="+request.term+"&location=bottom", true);
               xhttp.send();}
     });
 }
 
-function createNewMessage(courseid,message)
-{
-	var xhttp;
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function(){
-         if (this.readyState == 4 && this.status == 200){
-    json_object = JSON.parse(this.responseText);
-    if(!(json_object.status))
-        {
-        alert("Message 1 not sent due to some error");
-        }
-         }
-         modifyTable(courseid);
-    }
-    xhttp.open("GET", "NewMessage?other_id="+courseid+"&msg="+message, true);
-      xhttp.send();
-     
-     
-     
 
-}
-
-function createNewConversation(courseid)
+function createNewConversation(courseid, year, semester)
 {
 	var xhttp;
     xhttp = new XMLHttpRequest();
@@ -307,7 +264,26 @@ function createNewConversation(courseid)
          }
          resetTable();
     }
-    xhttp.open("GET", "CreateConversation?other_id="+courseid, true);
+    xhttp.open("GET", "CreateSection?courseID="+courseid+"&year="+year+"&semester="+semester, true);
+      xhttp.send();
+}
+
+
+function createNewMessage(courseid,message)
+{
+	var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+         if (this.readyState == 4 && this.status == 200){
+    json_object = JSON.parse(this.responseText);
+    if(!(json_object.status))
+        {
+        	alert("Unable to create new course at this moment. Please try again later");
+        }
+         }
+         modifyTable(courseid);
+    }
+    xhttp.open("GET", "NewMessage?other_id="+courseid+"&msg="+message, true);
       xhttp.send();
      
      
