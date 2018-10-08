@@ -25,7 +25,6 @@ $(document).ready(function() {
         columns: [{data:"courseid"}, {data:"year"}, {data:"semester"}]
     });
     contentTable.ajax.url("AllSections").load();
-    console.log("came here");
     $("#linker").click(function(e)
     {
         e.preventDefault();
@@ -80,8 +79,7 @@ $(document).ready(function() {
 
 function resetTable()
 {
-	console.log("came here at least");
-    document.getElementById("content").innerHTML = "Search Conversations:  <input id=\"showConv\" type=\"text\"/>" + "<table id = \"contentTable\" class = \"display\">" +
+	document.getElementById("content").innerHTML = "Search Conversations:  <input id=\"showConv\" type=\"text\"/>" + "<table id = \"contentTable\" class = \"display\">" +
     "<thead><tr>" +
     "<th>Course ID</th>" +
     "<th>Year</th>" +
@@ -190,7 +188,6 @@ function modifyTable(courseid)
             var currentData = JSON.parse(this.responseText).data;
             var currentStr = "<table class = \"display\"> <tr> <th> Course ID </th>" +
              "<th> Year </th> <th> Semester </th> </tr>";
-            console.log("came to modify table");
              for (var i = 0 ; i < currentData.length ; i ++)
                  {
                      currentStr += "<tr>";
@@ -234,13 +231,11 @@ function modifyTable(courseid)
 
 function autohelper(request,response)
 {
-    console.log("Came here");
     var xhttp;
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
          if (this.readyState == 4 && this.status == 200){
              json= JSON.parse(this.responseText);
-             console.log(json.data);
              response(json.data);
          }
          }
@@ -275,10 +270,7 @@ function showCreateConversation()
 
 function createNewMessage(courseid,message)
 {
-//    var courseid=document.getElementById("courseid").value;
-//    var message=document.getElementById("message").value;
-    //console.log(courseid+message+"came here");
-    var xhttp;
+	var xhttp;
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
          if (this.readyState == 4 && this.status == 200){
@@ -300,10 +292,7 @@ function createNewMessage(courseid,message)
 
 function createNewConversation(courseid)
 {
-//    var courseid=document.getElementById("courseid").value;
-//    var message=document.getElementById("message").value;
-    //console.log(courseid+message+"came here");
-    var xhttp;
+	var xhttp;
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function(){
          if (this.readyState == 4 && this.status == 200){

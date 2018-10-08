@@ -39,7 +39,6 @@ public class AllSections extends HttpServlet {
 				new DbHelper.ParamType[] {DbHelper.ParamType.STRING}, 
 				new String[] {instructorID});
 		
-		System.out.println(res);
 		PrintWriter out = response.getWriter();
 		out.print(res);
 	}
