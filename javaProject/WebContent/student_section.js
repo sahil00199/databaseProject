@@ -33,8 +33,8 @@ $(document).ready(function() {
 	            );
         	}
         	else{
-        		alert(data1.message);
-//        		window.location.replace("logout");
+        		window.location.replace("illegalAccess.html");
+        		console.log(data1.message);
         	}
         }
     });   

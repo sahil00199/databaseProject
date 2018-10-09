@@ -56,7 +56,7 @@ public class StudentQuizzes extends HttpServlet {
 				new DbHelper.ParamType[] { 
 						DbHelper.ParamType.STRING,
 						DbHelper.ParamType.INT}, 
-				new Object[] {id, secid_int});
+				new Object[] {id, secid});
 		
 		if(res.isEmpty()) {
 			response.getWriter().print(DbHelper.errorJson("Student is not enrolled in the section"));
@@ -70,7 +70,7 @@ public class StudentQuizzes extends HttpServlet {
 		String res1 = DbHelper.executeQueryJson(query1, 
 				new DbHelper.ParamType[] {
 						DbHelper.ParamType.INT,}, 
-				new Object[] {secid_int});
+				new Object[] {secid});
 		
 		PrintWriter out = response.getWriter();
 		out.print(res1);
