@@ -1,4 +1,5 @@
 
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Home
+ * Servlet implementation class CreateSection
  */
-@WebServlet("/InstructorHome")
-public class InstructorHome extends HttpServlet {
+@WebServlet("/CreateSection")
+public class CreateSection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorHome() {
+    public CreateSection() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +28,7 @@ public class InstructorHome extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("id") == null)//not logged in!
+		if (session.getAttribute("id") == null)//not logged in
 		{
 			response.sendRedirect("login.html");
 			return;
@@ -35,26 +36,18 @@ public class InstructorHome extends HttpServlet {
 		if (!session.getAttribute("role").equals("instructor"))
 		{
 			response.sendRedirect("illegalAccess.html");
-			return;
 		}
-		String html = "<html><head><title>Instructor's Home</title>" + 
-				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
-				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
-				"    <script src=\"jquery-ui.min.js\"></script>" + 
-
-				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
-				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
-				
-				"	 <script src=\"instructor_home.js\"></script>" +
-				"</head>" + 
-				"<body>" + 
-				"    <button onclick=\"resetTable()\">Home</button><br><br>" +
-				"    <div id=\"content\">" +
-				"	 </div> " +
-				"<a href = \"LogoutServlet\"> Logout </a>" +
-				"</body></html>";
-		response.setContentType("text/html");
-		response.getWriter().print(html);
+		String courseID = (String)request.getParameter("courseID");
+		String year = (String)request.getParameter("year");
+		String semester = (String)request.getParameter("semester");
+		String query = "insert into section(courseid, year, semester) values (?, ?, ?)";
+		String json = DbHelper.executeUpdateJson(query, 
+				new DbHelper.ParamType[] {DbHelper.ParamType.STRING,
+						DbHelper.ParamType.INT,
+						DbHelper.ParamType.STRING},
+				new String[] {courseID, year, semester});
+		System.out.println(json);
+		response.getWriter().print(json);
 	}
 
 	/**
