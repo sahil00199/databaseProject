@@ -27,3 +27,15 @@ insert into teaches values('i1', 1);
 insert into teaches values('i1', 4);
 insert into teaches values('i2', 2);
 insert into teaches values('i2', 3);
+
+insert into takes values('s1', 1);
+insert into takes values('s1', 3);
+insert into takes values('s3', 2);
+insert into takes values('s3', 3);
+
+insert into quiz(qzName, secID, start, duration) values('Quiz 1', 1, '2018-09-22 19:10:25', '3 4:05:06');
+insert into quiz(qzName, secID, start, duration) values('Quiz 2', 1, '2018-09-25 09:00:00', '0:30:00');
+insert into quiz(qzName, secID, start, duration) values('Quiz 3', 1, '2018-11-22 09:00:00', '1:00:00');
+insert into quiz(qzName, secID, start, duration) values('Quiz 1', 2, '2018-09-22 19:10:25', '3 4:05:06');
+insert into quiz(qzName, secID, start, duration) values('Quiz 2', 2, '2018-09-25 09:00:00', '0:30:00');
+insert into quiz(qzName, secID, start, duration) values('Quiz 3', 2, '2018-11-22 09:00:00', '1:00:00');

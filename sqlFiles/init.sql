@@ -34,14 +34,14 @@ create table instructor(
 
 create table course(
 	courseID varchar(10),
-	name varchar(50),
+	courseName varchar(50),
 	primary key(courseID)
 );
 
 create table topic(
 	topicID serial,
 	courseID varchar(10),
-	name varchar(50),
+	topicName varchar(50),
 	foreign key(courseID) references course
 		on delete cascade,
 	primary key(topicID)
@@ -81,7 +81,7 @@ create table teaches(
 
 create table quiz(
 	qzID serial,
-	name varchar(50),
+	qzName varchar(50),
 	secID integer,
 	start timestamp,
 	duration interval,
