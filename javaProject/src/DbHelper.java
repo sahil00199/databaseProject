@@ -127,7 +127,7 @@ public class DbHelper {
     	return node.toString();
     }
 
-	private static void setParams(PreparedStatement stmt,
+	public static final void setParams(PreparedStatement stmt,
 			ParamType[] paramTypes, 
 			Object[] params) throws SQLException {
 		List<ParamType> paramTypesList = Arrays.asList(paramTypes);
@@ -207,7 +207,7 @@ public class DbHelper {
 		return arr;
 	}
 	
-	public static ObjectNode errorJson(String errorMsg) {
+	public static final ObjectNode errorJson(String errorMsg) {
 		ObjectNode node = mapper.createObjectNode();
 		node.put(STATUS_LABEL, false);
 		node.put(MSG_LABEL, errorMsg);
