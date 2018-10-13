@@ -92,7 +92,7 @@ function addOption(){
 		setError("Empty option cannot be added");	
 	}
 	else {
-		document.getElementById("options").innerHTML += '<br> <input type="checkbox" name="ops" value="' + options.length +'" onclick="switching(' + options.length + ')"> ' + newop + '<br> ';
+		document.getElementById("options").innerHTML += '<br> <input type="checkbox" name="ops" value="' + options.length +'" onclick="switching(' + options.length + ')"> ' + newop;
 		document.getElementById("newop").value = "";
 		options.push(newop);
 		isCorrect.push(0);
@@ -113,8 +113,9 @@ function makeS() {
 }
 function makeO() {
 	options.length = 0;
+	isCorrect.length = 0;	
 	isObjective = 1;
-	document.getElementById("adding").innerHTML = 'Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add More Options</button>';
+	document.getElementById("adding").innerHTML = 'Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add Option</button>';
 	document.getElementById("options").innerHTML = "Current Options:";
 	/* console.log("madeO");	 */
 }
@@ -124,7 +125,7 @@ function makeO() {
 <title>Signup</title>
 </head>
 <body>
-	<h1>Create a new Question</h1>
+	<h1>Create a New Question</h1>
 	<p id="error" style="color:red"></p>
 	<form>
 		Question<br> <input type="text" name="question" id="question" maxlength="2000" required> <br><br>
@@ -133,10 +134,10 @@ function makeO() {
 		Password<br> <input type="password" name="password" id="password" maxlength="50" required> <br><br> -->
 		<input type="radio" name="role" value="objective" onclick="makeO()" checked> Objective <br>
 		<input type="radio" name="role" value="subjective" onclick="makeS()"> Subjective <br>
-		<p id="adding"> Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add More Options</button></p>
+		<p id="adding"> Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add Options</button></p>
 		<!-- <input type="radio" name="role" value="TA"> Teaching assistant <br> <br> -->
 		<p id="options">Current Options:</p>
-		<button type="button" onclick="validateForm()">Create account</button>
+		<button type="button" onclick="validateForm()">Create Question</button>
 	</form>
 </body>
 </html>
