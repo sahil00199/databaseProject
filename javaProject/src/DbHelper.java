@@ -126,6 +126,32 @@ public class DbHelper {
     	node.put(STATUS_LABEL, status);
     	return node.toString();
     }
+	
+	protected static boolean executeUpdateBool(String updateQuery, ParamType[] paramTypes, Object[] params) {
+    	int recordsUpdated = 0;
+    	try (Connection conn = DriverManager.getConnection(Config.url, Config.user, Config.password))
+        {
+            conn.setAutoCommit(false);
+            try(PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+            	setParams(stmt, paramTypes, params);
+            	recordsUpdated = stmt.executeUpdate();
+                conn.commit();
+            }
+            catch(Exception ex)
+            {
+                conn.rollback();
+                throw ex;
+            }
+            finally{
+                conn.setAutoCommit(true);
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+    	boolean status = recordsUpdated == 0 ? false : true;
+    	return status;
+    }
 
 	public static final void setParams(PreparedStatement stmt,
 			ParamType[] paramTypes, 
