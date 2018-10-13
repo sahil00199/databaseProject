@@ -22,7 +22,8 @@ public class DbHelper {
 	
 	protected static enum ParamType{
 		STRING,
-		INT
+		INT,
+		BOOL
 	}
 	
 	/**
@@ -146,6 +147,7 @@ public class DbHelper {
                 conn.setAutoCommit(true);
             }
         } catch (Exception e) {
+        	System.out.println(errorJson(e.getMessage()).toString());
             return false;
         }
 
@@ -168,6 +170,10 @@ public class DbHelper {
 			}
 			else if(type.equals(ParamType.INT)) {
 				stmt.setInt(i+1, Integer.parseInt((String)param));
+			}
+			else if(type.equals(ParamType.BOOL)) {
+				boolean theBool = ((String) param).equals("true");
+				stmt.setBoolean(i+1, theBool);
 			}
 		}
 	}
