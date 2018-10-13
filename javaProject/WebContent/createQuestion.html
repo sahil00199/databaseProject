@@ -3,7 +3,8 @@
 <head>
 <script>
 var isObjective = 1;
-var ops = new Array();
+var options = new Array();
+var isCorrect = new Array();
 function resetError() {
 	document.getElementById("error").innerHTML = "";
 }
@@ -16,14 +17,13 @@ function validateForm(){
 	var max_limit_ops = 1000;
 	var ques = document.getElementById("question").value;
 	/* var role = document.querySelector('input[name="role"]:checked').value; */
-	if(id.length == 0){
-		document.getElementById("error").style.color = "red";
-		document.getElementById("error").innerHTML = "Question is required";
+	if(ques.length == 0){
+		setError("Question is required");
 		return;
 	}
 	resetError();
 	if (isObjective == 0) {
-		var ans = getElementById("answer").value;
+		var ans = document.getElementById("answer").value;
 		var xhttp;
 		xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -41,37 +41,47 @@ function validateForm(){
 		    
 		  }
 		};
-		
+		var toSend = "&question="+ques + "&answer=" + ans;
 		xhttp.open("POST", "CreateSubQuestion", true);
 		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		xhttp.send("id=" + id + "&question="+ques + "&answer=" + ans);
+		console.log(toSend);
+		xhttp.send(toSend);
 	}
-	if(password.length == 0){
-		document.getElementById("error").style.color = "red";
-		document.getElementById("error").innerHTML = "Password is required";
-		return;
+	else {
+		/* var ans = getElementById("answer").value; */
+		var xhttp;
+		xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  if (this.readyState == 4 && this.status == 200) {
+			var response = JSON.parse(this.responseText);
+			if(response.status){
+				document.getElementById("error").innerHTML = "Question created successfully<br>Proceed to the <a href=\"InstructorHome\"> Home</a> Page";
+				document.getElementById("error").style.color = "green";
+			}
+			else{
+				document.getElementById("error").innerHTML = "Some error occured";
+				document.getElementById("error").style.color = "red";
+				console.log(response.message);
+			}
+		  }
+		};
+		
+		xhttp.open("POST", "CreateObjQuestion", true);
+		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		var toSend = "&question=" + ques + "&length=" + options.length;
+		for (var i = 0; i < options.length; i++){
+			toSend += "&answer";
+			toSend += i;
+			toSend += "=";
+			toSend += options[i];
+			toSend += "&isCorrect";
+			toSend += i;
+			toSend += "=";
+			toSend += isCorrect[i]; //0 or 1
+		}
+		console.log(toSend);
+		xhttp.send(toSend);
 	}
-	var xhttp;
-	xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-	  if (this.readyState == 4 && this.status == 200) {
-		var response = JSON.parse(this.responseText);
-		if(response.status){
-			document.getElementById("error").innerHTML = "Account created successfully<br>Proceed to the <a href=\"login.html\"> Login</a> page";
-			document.getElementById("error").style.color = "green";
-		}
-		else{
-			document.getElementById("error").innerHTML = "ID already taken. Please enter another ID";
-			document.getElementById("error").style.color = "red";
-			console.log(response.message);
-		}
-	    
-	  }
-	};
-	
-	xhttp.open("POST", "SignupServlet", true);
-	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhttp.send("id=" + id + "&name="+name + "&password=" + password  + "&email=" + email + "&role=" + role);
 }
 
 function addOption(){
@@ -79,28 +89,34 @@ function addOption(){
 	/* console.log(newop); */
 	if (newop == "")
 	{
-		document.getElementById("error").style.color = "red";
-		document.getElementById("error").innerHTML = "Please enter a non-null option";	
+		setError("Empty option cannot be added");	
 	}
 	else {
-		document.getElementById("options").innerHTML += '<br>' + newop;
+		document.getElementById("options").innerHTML += '<br> <input type="checkbox" name="ops" value="' + options.length +'" onclick="switching(' + options.length + ')"> ' + newop + '<br> ';
 		document.getElementById("newop").value = "";
-		ops.push(newop);
+		options.push(newop);
+		isCorrect.push(0);
 		resetError();
 	}
 }
+
+function switching(ind) {
+	console.log("out" + ind);
+	isCorrect[ind] = 1 - isCorrect[ind];
+}
+
 function makeS() {
-	var isObjective = 0;
+	isObjective = 0;
 	document.getElementById("adding").innerHTML = "Answer: <input type='text' name='answer' id='answer' maxlength='1000'>";
 	document.getElementById("options").innerHTML = "";
-	console.log("madeS");
+	/* console.log("madeS"); */
 }
 function makeO() {
-	ops.length = 0;
-	var isObjective = 1;
+	options.length = 0;
+	isObjective = 1;
 	document.getElementById("adding").innerHTML = 'Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add More Options</button>';
 	document.getElementById("options").innerHTML = "Current Options:";
-	console.log("madeO");	
+	/* console.log("madeO");	 */
 }
 
 </script>
