@@ -1,17 +1,15 @@
-var helpers = 
+function buildList(result, list)
 {
-    buildList: function(result, list)
-    {
-        // Remove current options
-        list.html('');
-        if(result != ''){
-        	$.each(result, function(k, v) {
-        		console.log(v);
-                list.append("<h3> <a href = \"StudentQuiz?qzid=" + v.qzid + "\"> " + v.qzname + " </a></h3>");
-            });
-        }
+    // Remove current options
+    list.html('');
+    if(result != ''){
+    	$.each(result, function(k, v) {
+    		console.log(v);
+            list.append("<h3> <a href = \"StudentQuiz?qzid=" + v.qzid + "\"> " + v.qzname + " </a></h3>");
+        });
     }
 }
+
 $(document).ready(function() {
 //	document.title = "Course:"
     document.getElementById("content").innerHTML =
@@ -27,7 +25,7 @@ $(document).ready(function() {
         	var data1 = (jQuery.parseJSON(data));
         	console.log(data1);
         	if(data1.status){
-	            helpers.buildList(
+	            buildList(
 	                data1.data,
 	                $('#contentList')
 	            );

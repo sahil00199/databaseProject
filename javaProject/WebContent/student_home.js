@@ -1,19 +1,17 @@
-var helpers = 
+function buildList(result, list)
 {
-    buildList: function(result, list)
-    {
-        // Remove current options
-        list.html('');
-        if(result != ''){
-        	$.each(result, function(k, v) {
+    // Remove current options
+    list.html('');
+    if(result != ''){
+    	$.each(result, function(k, v) {
 //        		console.log(v);
-                list.append("<h3> <a href = \"StudentSection?secid=" + v.secid + "\"> " +
-                		v.courseid + " : " + v.coursename + ", " + v.semester +  ", " + v.year + 
-                		"</a></h3>");
-            });
-        }
+            list.append("<h3> <a href = \"StudentSection?secid=" + v.secid + "\"> " +
+            		v.courseid + " : " + v.coursename + ", " + v.semester +  ", " + v.year + 
+            		"</a></h3>");
+        });
     }
 }
+
 $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"contentList\"></div><br>";
@@ -26,7 +24,7 @@ $(document).ready(function() {
         	var data1 = (jQuery.parseJSON(data));
         	console.log(data1);
         	if(data1.status){
-	            helpers.buildList(
+	            buildList(
 	                data1.data,
 	                $('#contentList')
 	            );
