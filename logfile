@@ -1,0 +1,20 @@
+2018-10-27 17:29:17.496 IST [1624] LOG:  listening on IPv6 address "::1", port 5828
+2018-10-27 17:29:17.496 IST [1624] LOG:  listening on IPv4 address "127.0.0.1", port 5828
+2018-10-27 17:29:17.497 IST [1624] LOG:  listening on Unix socket "/Users/Aman/postgresql/.s.PGSQL.5828"
+2018-10-27 17:29:17.522 IST [1625] LOG:  database system was shut down at 2018-10-13 01:10:28 IST
+2018-10-27 17:29:17.533 IST [1624] LOG:  database system is ready to accept connections
+2018-10-27 17:29:31.108 IST [1632] ERROR:  column "sid" does not exist at character 29
+2018-10-27 17:29:31.108 IST [1632] HINT:  Perhaps you meant to reference the column "student.id".
+2018-10-27 17:29:31.108 IST [1632] STATEMENT:  select * from student where sID = $1
+2018-10-27 17:33:52.752 IST [1739] ERROR:  duplicate key value violates unique constraint "teaches_pkey"
+2018-10-27 17:33:52.752 IST [1739] DETAIL:  Key (iid, secid)=(i1, 1) already exists.
+2018-10-27 17:33:52.752 IST [1739] STATEMENT:  insert into teaches values($1, $2)
+2018-10-27 17:34:23.338 IST [1751] ERROR:  duplicate key value violates unique constraint "teaches_pkey"
+2018-10-27 17:34:23.338 IST [1751] DETAIL:  Key (iid, secid)=(i1, 4) already exists.
+2018-10-27 17:34:23.338 IST [1751] STATEMENT:  insert into teaches values($1, $2)
+2018-10-27 17:35:38.681 IST [1776] ERROR:  duplicate key value violates unique constraint "teaches_pkey"
+2018-10-27 17:35:38.681 IST [1776] DETAIL:  Key (iid, secid)=(i1, 4) already exists.
+2018-10-27 17:35:38.681 IST [1776] STATEMENT:  insert into teaches values($1, $2)
+2018-10-27 17:36:07.289 IST [1785] ERROR:  syntax error at or near ":" at character 22
+2018-10-27 17:36:07.289 IST [1785] STATEMENT:  select * from section:
+	;
