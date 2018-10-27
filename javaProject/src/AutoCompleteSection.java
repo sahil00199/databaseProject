@@ -48,17 +48,16 @@ public class AutoCompleteSection extends HttpServlet {
 			// System.out.println(location + " " + partial + " " +	 uid);
 			if (location.equals("bottom"))
 			{
-				query = "select courseID as label, courseID as value from course where name like ? or courseID like ?";
+				query = "select courseID as label, courseID as value from course where coursename like ? or courseID like ?";
 			}
 			else if (location.equals("top"))
 			{
-				query = "select courseID as label, courseID as value from course where name like ? or courseID like ?";
+				query = "select courseID as label, courseID as value from course where coursename like ? or courseID like ?";
 			}
 			String res = DbHelper.executeQueryJson(query, 
 					new DbHelper.ParamType[] {DbHelper.ParamType.STRING,
 							DbHelper.ParamType.STRING}, 
 					new String[] {partial, partial});
-			
 			PrintWriter out = response.getWriter();
 			out.print(res);
 			}

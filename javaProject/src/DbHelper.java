@@ -22,7 +22,8 @@ public class DbHelper {
 	
 	protected static enum ParamType{
 		STRING,
-		INT
+		INT,
+		BOOL
 	}
 	
 	/**
@@ -126,8 +127,35 @@ public class DbHelper {
     	node.put(STATUS_LABEL, status);
     	return node.toString();
     }
+	
+	protected static boolean executeUpdateBool(String updateQuery, ParamType[] paramTypes, Object[] params) {
+    	int recordsUpdated = 0;
+    	try (Connection conn = DriverManager.getConnection(Config.url, Config.user, Config.password))
+        {
+            conn.setAutoCommit(false);
+            try(PreparedStatement stmt = conn.prepareStatement(updateQuery)) {
+            	setParams(stmt, paramTypes, params);
+            	recordsUpdated = stmt.executeUpdate();
+                conn.commit();
+            }
+            catch(Exception ex)
+            {
+                conn.rollback();
+                throw ex;
+            }
+            finally{
+                conn.setAutoCommit(true);
+            }
+        } catch (Exception e) {
+        	System.out.println(errorJson(e.getMessage()).toString());
+            return false;
+        }
 
-	private static void setParams(PreparedStatement stmt,
+    	boolean status = recordsUpdated == 0 ? false : true;
+    	return status;
+    }
+
+	public static final void setParams(PreparedStatement stmt,
 			ParamType[] paramTypes, 
 			Object[] params) throws SQLException {
 		List<ParamType> paramTypesList = Arrays.asList(paramTypes);
@@ -142,6 +170,10 @@ public class DbHelper {
 			}
 			else if(type.equals(ParamType.INT)) {
 				stmt.setInt(i+1, Integer.parseInt((String)param));
+			}
+			else if(type.equals(ParamType.BOOL)) {
+				boolean theBool = ((String) param).equals("true");
+				stmt.setBoolean(i+1, theBool);
 			}
 		}
 	}
@@ -207,7 +239,7 @@ public class DbHelper {
 		return arr;
 	}
 	
-	public static ObjectNode errorJson(String errorMsg) {
+	public static final ObjectNode errorJson(String errorMsg) {
 		ObjectNode node = mapper.createObjectNode();
 		node.put(STATUS_LABEL, false);
 		node.put(MSG_LABEL, errorMsg);
