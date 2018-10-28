@@ -6,6 +6,8 @@
 
 
 
+-- When inserting in checked ensure that the section of the quiz and ta match
+
 
 
 
@@ -29,7 +31,7 @@ INSTRUCTOR:
 
 xx check session and role in every servlet
 xx create new course
--- with every new section created, we need to find the threadid and then add to teaches
+xx with every new section created, we need to find the threadid and then add to teaches
 -- add drop down for semesters
 -- in drop down for course, display the name as well
 -- course page on clicking on course
