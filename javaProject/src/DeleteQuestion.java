@@ -62,9 +62,10 @@ public class DeleteQuestion extends HttpServlet {
 		String query1 = "delete from question where qid = ?";
 		String query2 = "delete from option where qid = ?";
         String json1 = DbHelper.executeUpdateJson(query1, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
-        String json2 = DbHelper.executeUpdateJson(query1, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
+        String json2 = DbHelper.executeUpdateJson(query2, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
     	
         response.getWriter().print(json1);
+        response.getWriter().print(json2);
         return;
 	}
 

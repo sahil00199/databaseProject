@@ -104,6 +104,7 @@ public class CreateSection extends HttpServlet {
             try(PreparedStatement stmt = conn.prepareStatement("select secid from section where courseid = ? and year = ? and semester = ?")) {
             	DbHelper.setParams(stmt, paramTypes, params);
             	rs = stmt.executeQuery();
+            	int maxx = 1000000; // will not work is we create more than 100000 sections
             	if (!rs.next())
             	{
             		node.put(DbHelper.STATUS_LABEL, false);
@@ -111,6 +112,17 @@ public class CreateSection extends HttpServlet {
             		return;
             	}
             	secid = rs.getString(1);
+            	maxx = Integer.parseInt(secid);
+            	while (rs.next())
+            	{
+            		int current = Integer.parseInt(rs.getString(1));
+            		System.out.println(current);
+            		if(current > maxx)
+            		{
+            			maxx = current;
+            		}
+            	}
+            	secid = Integer.toString(maxx);
                 conn.commit();
             }
             catch(Exception ex)
