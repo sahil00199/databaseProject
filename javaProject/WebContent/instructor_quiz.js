@@ -1,103 +1,84 @@
-var helpers = 
+function optionList(result, qlist, ans, isObjective)
 {
-    buildList: function(result, list)
-    {
-        // Remove current options
-        list.html('');
-        if(result != ''){
-        	$.each(result, function(k, v) {
-        		console.log(v);
-        		if(v.isObjective){
-        			var k1 = k+1;
-        			var question = "<p>Q."+ k1.toString() + ")" + v.problem + "</p>";
-        			question+= "<ol>" ;
-        			answer = "<p>Answer: <br>";
-        			var xhttp;
-        			xhttp = new XMLHttpRequest();
-        			xhttp.onreadystatechange = function() {
-        			  if (this.readyState == 4 && this.status == 200) {
-        				var response = JSON.parse(this.responseText);
-        				if(response.status){
-        					var i=1;
-        					for(option in response.data){
-        						question+= "<li>" + option.opt + "</li>";
-        						
-        						if(option.isCorrect){
-        							answer += i.toString()+ "<br>";
-        						}
-        						i=i+1;
-        					}
-        					question +="</ol>";
-        					answer+="</p>";
-        					question+=answer;
-        				}
-        				else{
-        					document.getElementById("error").innerHTML = response.message;
-        					console.log(response.message);
-        				}
-        			    
-        			  }
-        			};
-        			
-        			xhttp.open("GET", "QuestionOption?qid=" + v.qid, true);
-        			xhttp.send();
-        			list.append(question);
-                }
-        		else{
-        			var k1 = k+1;
-        			var question = "<p>Q."+ k1.toString() + ")" + v.problem + "</p>";
-        			
-        			answer = "<p>Answer: <br>";
-        			var xhttp;
-        			xhttp = new XMLHttpRequest();
-        			xhttp.onreadystatechange = function() {
-        			  if (this.readyState == 4 && this.status == 200) {
-        				var response = JSON.parse(this.responseText);
-        				if(response.status){
-        					var i=1;
-        					for(option in response.data){
-        						
-        						if(option.isCorrect){
-        							answer += option.opt + "<br>";
-        						}
-        					}
-        					answer+="</p>";
-        					question+=answer;
-        				}
-        				else{
-        					document.getElementById("error").innerHTML = response.message;
-        					console.log(response.message);
-        				}
-        			    
-        			  }
-        			};
-        			
-        			xhttp.open("GET", "QuestionOption?qid=" + v.qid, true);
-        			xhttp.send();
-        			list.append(question);
-        		}
+    // Remove current options
+    qlist.html('');
+    ans.html('Answer: <br>');
+    if(result != ''){
+    	var str = "";
+    	if(isObjective == 'true'){
+    		str+="<ol>";
+    		$.each(result, function(k, v) {
+    			k1=k+1
+    			str+="<li>" + v.opt + "</li>";
+    			if(v.iscorrect =='true') {
+    				ans.append(k1.toString() + "<br>");
+    			}
+    			
             });
-        }
+    		str+="</ol>";
+    		qlist.html(str);
+    	}
+    	else{
+    		$.each(result, function(k, v) {
+    			ans.append(v.opt);
+            });
+    	}
     }
 }
+function questionList(result, list, qzid)
+{
+    // Remove current options
+    list.html('');
+    if(result != ''){
+    	$.each(result, function(k, v) {
+//    		console.log(v);
+    		var k1 = k+1;
+			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "</p>" +
+					" <p id = op" + v.qid + " > </p>";
+			list.append(question);
+			answer = "<p id = ans" + v.qid + "> </p><br>";
+			list.append(answer);
+    		$.ajax({
+		        type: "GET",
+		        url: "InstructorQuizQuesOptions",
+		        data: {"qzid": qzid, "qid": v.qid},
+		        success: function(data){
+		        	var data1 = (jQuery.parseJSON(data));
+		        	if(data1.status){
+			            optionList(
+			                data1.data,
+			                $('#op' + v.qid),
+			                $('#ans' + v.qid),
+			                v.isobjective
+			            );
+		        	}
+		        	else{
+		        		alert(data1.message);
+		        		window.location.replace("illegalAccess.html");
+		        	}
+		        }
+		    }); 
+        });
+    }
+}
+
 $(document).ready(function() {
 //	document.title = "Course:"
     document.getElementById("content").innerHTML =
-            "<div id = \"contentList\"></div><br>";
-    document.getElementById("heading").innerHTML =
-        "Quiz";
+            "<div id = \"questions\"></div><br>";
+    document.getElementById("heading").innerHTML =  "Quiz";
     $.ajax({
         type: "GET",
-        url: "InstructorQuizDetails",
+        url: "InstructorQuizQuestions",
         data: {"qzid": qzid},
         success: function(data){
 //        	console.log(data);
         	var data1 = (jQuery.parseJSON(data));
-        //	console.log(data1);
         	if(data1.status){
-	            helpers.buildList(
+	            questionList(
 	                data1.data,
-	                $('#contentList')
+	                $('#questions'),
+	                qzid
 	            );
         	}
         	else{
@@ -107,4 +88,3 @@ $(document).ready(function() {
         }
     });   
 });
-

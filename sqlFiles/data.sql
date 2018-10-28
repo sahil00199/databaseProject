@@ -39,3 +39,35 @@ insert into quiz(qzName, secID, start, duration) values('Quiz 3', 1, '2018-11-22
 insert into quiz(qzName, secID, start, duration) values('Quiz 1', 2, '2018-09-22 19:10:25', '3 4:05:06');
 insert into quiz(qzName, secID, start, duration) values('Quiz 2', 2, '2018-09-25 09:00:00', '0:30:00');
 insert into quiz(qzName, secID, start, duration) values('Quiz 3', 2, '2018-11-22 09:00:00', '1:00:00');
+
+insert into question(iid, problem, isObjective) values('i1', 'How many sides of a square?', TRUE);
+insert into question(iid, problem, isObjective) values('i1', '2+2', TRUE);
+insert into question(iid, problem, isObjective) values('i1', 'How many sides of a circle?', FALSE);
+insert into question(iid, problem, isObjective) values('i2', 'What is capital of India?', TRUE);
+insert into question(iid, problem, isObjective) values('i2', 'What is capital of France?', TRUE);
+
+insert into option(qID, isCorrect, optNum, opt) values(1, FALSE, 1, '1');
+insert into option(qID, isCorrect, optNum, opt) values(1, FALSE, 2, '2');
+insert into option(qID, isCorrect, optNum, opt) values(1, FALSE, 3, '3');
+insert into option(qID, isCorrect, optNum, opt) values(1, TRUE, 4, '4');
+
+insert into option(qID, isCorrect, optNum, opt) values(2, FALSE, 1, '1');
+insert into option(qID, isCorrect, optNum, opt) values(2, TRUE, 2, '2*2');
+insert into option(qID, isCorrect, optNum, opt) values(2, FALSE, 3, '3');
+insert into option(qID, isCorrect, optNum, opt) values(2, TRUE, 4, '4');
+
+insert into option(qID, isCorrect, optNum, opt) values(3, TRUE, 1, 'Infinite');
+
+insert into option(qID, isCorrect, optNum, opt) values(4, TRUE, 1, 'Delhi');
+insert into option(qID, isCorrect, optNum, opt) values(4, FALSE, 2, 'Milan');
+insert into option(qID, isCorrect, optNum, opt) values(4, FALSE, 3, 'Paris');
+insert into option(qID, isCorrect, optNum, opt) values(4, FALSE, 4, 'New York');
+
+insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 1, 'Delhi');
+insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 2, 'Milan');
+insert into option(qID, isCorrect, optNum, opt) values(5, TRUE, 3, 'Paris');
+insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 4, 'New York');
+
+insert into quizQuestion(qID, secID, qzID, maxMarks) values(1, 1, 1, 1);
+insert into quizQuestion(qID, secID, qzID, maxMarks) values(2, 1, 1, 1);
+insert into quizQuestion(qID, secID, qzID, maxMarks) values(3, 1, 1, 1);

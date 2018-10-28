@@ -35,33 +35,34 @@ public class InstructorQuiz extends HttpServlet {
 		
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
-		//String secid = (String) request.getParameter("secid");
-		String quizid= (String) request.getParameter("qzid");
+		String qzid= (String) request.getParameter("qzid");
 		if(!role.equals("instructor")) {
-			String html = "<html><head><title>Error</title>" +
-					"</head>" + 
-					"<body>" +
-					"    <div id=\"content\">" +
-					"	 User is not an instructor</div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
-			return;
+			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 User is not an instructor</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
 		}
-		if(quizid == null) {
-			String html = "<html><head><title>Error</title>" +
-					"</head>" + 
-					"<body>" +
-					"    <div id=\"content\">" +
-					"	 Section ID not passed as get parameter</div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
-			return;
+		if(qzid == null) {
+			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 Section ID not passed as get parameter</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
 		}
-		String html = "<html><head><title>Section</title>" + 
+		String html = "<html><head><title>Quiz</title>" + 
 				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
 				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
 				"    <script src=\"jquery-ui.min.js\"></script>" + 
@@ -69,7 +70,7 @@ public class InstructorQuiz extends HttpServlet {
 				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
 				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
 
-				"    <script> var quizid = " + quizid + " </script>" +
+				"    <script> var qzid = " + qzid + " </script>" +
 				"	 <script src=\"instructor_quiz.js\"></script>" +
 				"</head>" + 
 				"<body>"
