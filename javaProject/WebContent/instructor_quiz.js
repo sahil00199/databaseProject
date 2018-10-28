@@ -33,7 +33,7 @@ function questionList(result, list, qzid)
     	$.each(result, function(k, v) {
 //    		console.log(v);
     		var k1 = k+1;
-			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "</p>" +
+			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "         [Marks:"+v.maxmarks.toString()+ "]</p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
 			answer = "<p id = ans" + v.qid + "> </p><br>";
