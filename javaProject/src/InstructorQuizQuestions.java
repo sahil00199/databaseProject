@@ -63,7 +63,7 @@ public class InstructorQuizQuestions extends HttpServlet {
 			return;
 		}
 		String query1 =  //TODO: verify query
-				"select qID, problem, isObjective "
+				"select qID, problem, isObjective, maxmarks "
 				+ "from (quiz natural join quizQuestion) natural join question "
 				+ "where qzid = ?;";
 		String res1 = DbHelper.executeQueryJson(query1, 

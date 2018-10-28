@@ -68,6 +68,6 @@ insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 2, 'Milan');
 insert into option(qID, isCorrect, optNum, opt) values(5, TRUE, 3, 'Paris');
 insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 4, 'New York');
 
-insert into quizQuestion(qID, secID, qzID, maxMarks) values(1, 1, 1, 1);
-insert into quizQuestion(qID, secID, qzID, maxMarks) values(2, 1, 1, 1);
-insert into quizQuestion(qID, secID, qzID, maxMarks) values(3, 1, 1, 1);
+insert into quizQuestion(qID, qzID, maxMarks) values(1, 1, 1);
+insert into quizQuestion(qID, qzID, maxMarks) values(2, 1, 1);
+insert into quizQuestion(qID, qzID, maxMarks) values(3, 1, 1);

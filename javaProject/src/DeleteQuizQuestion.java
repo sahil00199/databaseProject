@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,28 +13,26 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.util.List;
-
-
 /**
- * Servlet implementation class DeleteQuestion
+ * Servlet implementation class DeleteQuizQuestion
  */
-@WebServlet("/DeleteQuestion")
-public class DeleteQuestion extends HttpServlet {
+@WebServlet("/DeleteQuizQuestion")
+public class DeleteQuizQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteQuestion() {
+    public DeleteQuizQuestion() {
         super();
-       
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		if (session.getAttribute("id") == null)//not logged in!
 		{
@@ -48,6 +48,7 @@ public class DeleteQuestion extends HttpServlet {
 		String query = "select qid from question where qid = ? and iid = ?";
 		String iid = (String) session.getAttribute("id");
 		String quid = (String) request.getParameter("qid");
+		String qzid = (String) request.getParameter("qzid");
 		List<List<Object> > status = DbHelper.executeQueryList(query, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
 				DbHelper.ParamType.STRING}, new String[] {quid, iid});
 		if (status.size() == 0)
@@ -59,13 +60,11 @@ public class DeleteQuestion extends HttpServlet {
         	return;
 		}
 		
-		String query1 = "delete from question where qid = ?";
-		String query2 = "delete from option where qid = ?";
-        String json1 = DbHelper.executeUpdateJson(query1, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
-        String json2 = DbHelper.executeUpdateJson(query2, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
+		String query1 = "delete from quizquestion where qid = ? and qzid = ?";
+        String json1 = DbHelper.executeUpdateJson(query1, new DbHelper.ParamType[] {DbHelper.ParamType.INT,DbHelper.ParamType.INT}, new String[] {quid,qzid});
+      ;
     	
         response.getWriter().print(json1);
-        response.getWriter().print(json2);
         return;
 	}
 

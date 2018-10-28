@@ -33,11 +33,13 @@ function questionList(result, list, qzid)
     	$.each(result, function(k, v) {
 //    		console.log(v);
     		var k1 = k+1;
-			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "</p>" +
+			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "         [Marks:"+v.maxmarks.toString()+ "]</p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
 			answer = "<p id = ans" + v.qid + "> </p><br>";
 			list.append(answer);
+			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form>";
+			list.append(removeQuestion);
     		$.ajax({
 		        type: "GET",
 		        url: "InstructorQuizQuesOptions",
@@ -67,6 +69,7 @@ $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
+    document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"insertQuestionQuiz\"> Insert Question</a></p>";
     $.ajax({
         type: "GET",
         url: "InstructorQuizQuestions",
@@ -88,3 +91,49 @@ $(document).ready(function() {
         }
     });   
 });
+
+function removeQuestion(qid)
+{
+	$.ajax({
+	    type: "GET",
+	    url: "DeleteQuizQuestion",
+	    data: {"qzid": qzid, "qid" :qid},
+	    success: function(data){
+//	    	console.log(data);
+	    	var data1 = (jQuery.parseJSON(data));
+	    	if(data1.status){
+	            
+	    	}
+	    	else{
+	    		window.location.replace("illegalAccess.html");
+	    		console.log(data1.message);
+	    	}
+	    }
+	});
+	document.getElementById("content").innerHTML =
+        "<div id = \"questions\"></div><br>";
+document.getElementById("heading").innerHTML =  "Quiz";
+document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"insertQuestionQuiz\"> Insert Question</a></p>";
+$.ajax({
+    type: "GET",
+    url: "InstructorQuizQuestions",
+    data: {"qzid": qzid},
+    success: function(data){
+//    	console.log(data);
+    	var data1 = (jQuery.parseJSON(data));
+    	if(data1.status){
+            questionList(
+                data1.data,
+                $('#questions'),
+                qzid
+            );
+    	}
+    	else{
+    		window.location.replace("illegalAccess.html");
+    		console.log(data1.message);
+    	}
+    }
+}); 
+	
+		}
+

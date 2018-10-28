@@ -87,7 +87,7 @@ create table quiz(
 	duration interval,
 	foreign key(secID) references section
 		on delete cascade,
-	primary key(qzID,secID)
+	primary key(qzID)
 );
 
 create table question(
@@ -112,14 +112,13 @@ create table option(
 
 create table quizQuestion(
 	qID integer,
-	secID integer,
 	qzID integer,
 	maxMarks float(2),
 	foreign key(qID) references question
 		on delete cascade,
-	foreign key(qzID, secID) references quiz
+	foreign key(qzID) references quiz
 		on delete set null,
-	primary key(qzID, secID, qID)
+	primary key(qzID, qID)
 );
 
 create table questionTopic(
@@ -136,14 +135,13 @@ create table response(
 	sID varchar(50),
 	qID integer,
 	qzID integer,
-	secID integer,
 	answer varchar(5000),
 	timeTaken interval,
 	isAttempted bool,
 	marksObtained float(2),
 	foreign key(sID) references student
 		on delete cascade,
-	foreign key(qzID,secID, qID) references quizQuestion
+	foreign key(qzID, qID) references quizQuestion
 		on delete set null,
 	primary key(sID, qzID, qID)
 );
@@ -174,7 +172,7 @@ create table checked(
 	isChecked bool,
 	foreign key(taID, secID) references taSection
 		on delete set null,
-	foreign key(qzID, secID, qID) references quizQuestion
+	foreign key(qzID, qID) references quizQuestion
 		on delete set null,
 	primary key(taID, secID, qID, qzID)
 );
