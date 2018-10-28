@@ -35,15 +35,7 @@ public class StudentHome extends HttpServlet {
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
 		if(!role.equals("student")) {
-			String html = "<html><head><title>Error</title>" +
-					"</head>" + 
-					"<body>" +
-					"    <div id=\"content\">" +
-					"	 User is not a student</div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
+			response.sendRedirect("illegalAccess.html");
 		}
 		else {
 			String html = "<html><head><title>Student Home</title>" + 

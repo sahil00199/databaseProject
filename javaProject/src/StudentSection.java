@@ -37,28 +37,10 @@ public class StudentSection extends HttpServlet {
 		String role = (String) session.getAttribute("role");
 		String secid = (String) request.getParameter("secid");
 		if(!role.equals("student")) {
-			String html = "<html><head><title>Error</title>" +
-					"</head>" + 
-					"<body>" +
-					"    <div id=\"content\">" +
-					"	 User is not a student</div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
-			return;
+			response.sendRedirect("illegalAccess.html");
 		}
 		if(secid == null) {
-			String html = "<html><head><title>Error</title>" +
-					"</head>" + 
-					"<body>" +
-					"    <div id=\"content\">" +
-					"	 Section ID not passed as get parameter</div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
-			return;
+			response.sendRedirect("illegalAccess.html");
 		}
 		String html = "<html><head><title>Section</title>" + 
 				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
