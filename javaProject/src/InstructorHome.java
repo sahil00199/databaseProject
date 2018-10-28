@@ -51,7 +51,8 @@ public class InstructorHome extends HttpServlet {
 					"<body>"
 					+ "<h1>Instructor Home</h1>" + 
 					"    <div id=\"content\">" +
-					"	 </div> "
+					"	 </div> "+
+					"<a href = \"LogoutServlet\"> Logout </a>" 
 					+ "</body>"
 					+ "</html>" ;
 			response.setContentType("text/html");
