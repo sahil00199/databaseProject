@@ -6,11 +6,11 @@
 
 
 
--- When inserting in checked ensure that the section of the quiz and ta match
+-- When inserting in "checked" ensure that the section of the quiz and ta match
 
+-- There is no pop-up box on failure of creation of a section right now
 
-
-
+-- On opening InstructorHome without logging in, there is a server error (check for all other files as well)
 
 
 
@@ -34,8 +34,8 @@ xx create new course
 xx with every new section created, we need to find the threadid and then add to teaches
 -- add drop down for semesters
 -- in drop down for course, display the name as well
--- course page on clicking on course
--- add question
+xx course page on clicking on course
+xx add question
 -- check login in AllSection
 
 
