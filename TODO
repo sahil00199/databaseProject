@@ -31,6 +31,7 @@ xx with every new section created, we need to find the threadid and then add to 
 xx course page on clicking on course
 xx add question
 -- check login in AllSection
+-- in InsertQuizQuestion check that the quiz and the question belong to the instructor who is adding to it
 
 
 
