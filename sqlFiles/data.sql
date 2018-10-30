@@ -18,6 +18,12 @@ insert into course values('CS101', 'Intro to Programming');
 insert into course values('CS201', 'Mid level Programming');
 insert into course values('CS301', 'Adv level Programming');
 
+insert into topic(courseid, topicname) values('CS101', 'functions');
+insert into topic(courseid, topicname) values('CS101', 'data types');
+insert into topic(courseid, topicname) values('CS201', 'recursion');
+insert into topic(courseid, topicname) values('CS201', 'classes');
+insert into topic(courseid, topicname) values('CS301', 'inheritence');
+
 insert into section(courseid, year, semester) values('CS101', 2018, 'Fall');
 insert into section(courseid, year, semester) values('CS101', 2018, 'Spring');
 insert into section(courseid, year, semester) values('CS201', 2018, 'Fall');
@@ -67,6 +73,12 @@ insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 1, 'Delhi');
 insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 2, 'Milan');
 insert into option(qID, isCorrect, optNum, opt) values(5, TRUE, 3, 'Paris');
 insert into option(qID, isCorrect, optNum, opt) values(5, FALSE, 4, 'New York');
+
+insert into questiontopic values(1, 1);
+insert into questiontopic values(2, 2);
+insert into questiontopic values(3, 3);
+insert into questiontopic values(4, 4);
+insert into questiontopic values(5, 5);
 
 insert into quizQuestion(qID, qzID, maxMarks) values(1, 1, 1);
 insert into quizQuestion(qID, qzID, maxMarks) values(2, 1, 1);
