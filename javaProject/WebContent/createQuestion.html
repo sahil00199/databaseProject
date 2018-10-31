@@ -34,9 +34,7 @@ function validateForm(){
 				document.getElementById("error").style.color = "green";
 			}
 			else{
-				document.getElementById("error").innerHTML = "Some error occured";
-				document.getElementById("error").style.color = "red";
-				console.log(response.message);
+				setError(response.message);
 			}
 		    
 		  }
@@ -44,7 +42,7 @@ function validateForm(){
 		var toSend = "&question="+ques + "&answer=" + ans;
 		xhttp.open("POST", "CreateSubQuestion", true);
 		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		console.log(toSend);
+		//console.log(toSend);
 		xhttp.send(toSend);
 	}
 	else {
@@ -59,9 +57,7 @@ function validateForm(){
 				document.getElementById("error").style.color = "green";
 			}
 			else{
-				document.getElementById("error").innerHTML = "Some error occured";
-				document.getElementById("error").style.color = "red";
-				console.log(response.message);
+				setError(response.message);
 			}
 		  }
 		};
@@ -79,7 +75,7 @@ function validateForm(){
 			toSend += "=";
 			toSend += isCorrect[i]; //0 or 1
 		}
-		console.log(toSend);
+		//console.log(toSend);
 		xhttp.send(toSend);
 	}
 }
@@ -101,7 +97,7 @@ function addOption(){
 }
 
 function switching(ind) {
-	console.log("out" + ind);
+	//console.log("out" + ind);
 	isCorrect[ind] = 1 - isCorrect[ind];
 }
 
@@ -120,14 +116,20 @@ function makeO() {
 	/* console.log("madeO");	 */
 }
 
+function goBack(){ 
+	window.location.replace("InstructorHome");
+}
 </script>
 <meta charset="UTF-8">
 <title>Signup</title>
 </head>
 <body>
+<button type="button" onclick="goBack()">Back to Home</button><br>
 	<h1>Create a New Question</h1>
+	
 	<p id="error" style="color:red"></p>
 	<form>
+		
 		Question<br> <input type="text" name="question" id="question" maxlength="2000" required> <br><br>
 		<!-- Name<br> <input type="text" name="name" id="name" maxlength="50" required> <br><br>
 		Email<br> <input type="text" name="email" id="email" maxlength="50" required> <br><br>
