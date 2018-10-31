@@ -47,7 +47,8 @@ public class InstructorDB extends HttpServlet {
 				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
 				"	 <script src=\"instructor_db.js\"></script>" +
 				"</head>" + 
-				"<body>"
+				"<body>"+
+				" <button type=\"button\" onclick=window.location.replace(\"InstructorHome\")>Back to Home</button><br>"
 				+ "<h1 id = \"heading\"></h1>" + 
 				"    <div id=\"content\">" +
 				"	 </div> "

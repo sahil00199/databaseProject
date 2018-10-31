@@ -69,7 +69,7 @@ $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
-    document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"insertQuestionQuiz\"> Insert Question</a></p>";
+    document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
     $.ajax({
         type: "GET",
         url: "InstructorQuizQuestions",
@@ -113,7 +113,7 @@ function removeQuestion(qid)
 	document.getElementById("content").innerHTML =
         "<div id = \"questions\"></div><br>";
 document.getElementById("heading").innerHTML =  "Quiz";
-document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"insertQuestionQuiz\"> Insert Question</a></p>";
+document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
 $.ajax({
     type: "GET",
     url: "InstructorQuizQuestions",

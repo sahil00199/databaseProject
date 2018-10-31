@@ -32,6 +32,7 @@ xx course page on clicking on course
 xx add question
 -- check login in AllSection
 -- in InsertQuizQuestion check that the quiz and the question belong to the instructor who is adding to it
+-- if a new question is tried to add, a error message is returned but the question is added to the database
 
 
 

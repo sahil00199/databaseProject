@@ -53,6 +53,7 @@ public class InstructorHome extends HttpServlet {
 					"    <div id=\"content\">" +
 					"	 </div> "+
 					"<a href = \"createQuestion.html\"> Add a new question </a><br><br>"+
+					"<a href = \"InstructorDB\"> View all questions </a><br><br>"+
 					"<a href = \"LogoutServlet\"> Logout </a>" 
 					+ "</body>"
 					+ "</html>" ;
