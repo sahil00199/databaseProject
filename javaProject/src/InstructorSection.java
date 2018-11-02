@@ -75,6 +75,7 @@ public class InstructorSection extends HttpServlet {
 				+ "<h1 id = \"heading\"></h1>" + 
 				"    <div id=\"content\">" +
 				"	 </div> "
+				+ "<a href = \"LogoutServlet\"> Logout </a>"
 				+ "</body>"
 				+ "</html>" ;
 		response.setContentType("text/html");

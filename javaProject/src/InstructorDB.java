@@ -53,6 +53,7 @@ public class InstructorDB extends HttpServlet {
 				"    <div id=\"content\">" +
 				"	 </div> "
 				+ "</body>"
+				+ "<a href = \"LogoutServlet\"> Logout </a>"
 				+ "</html>" ;
 		response.setContentType("text/html");
 		response.getWriter().print(html);
