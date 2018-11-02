@@ -1,4 +1,4 @@
-var tableStr = "<th> QuestionID </th> <th> QuestionText </th>";
+var tableStr = "<th> QuestionText </th>";
 
 function resetError() {
 	document.getElementById("error").innerHTML = "";
@@ -13,9 +13,9 @@ function setPosError(temp){
 	document.getElementById("error").innerHTML = temp;
 }
 
-function addTheQues(){
+function addTheQues(myqid){
 //	console.log(myqid);
-	var myqid = document.getElementById("qqqid").value;
+//	var myqid = document.getElementById("qqqid").value;
 	var mytopic = document.getElementById("tttopic").value;
 	var mymarks = document.getElementById("mmarks").value;
 //	console.log(myqid);
@@ -51,13 +51,11 @@ function addTheQues(){
 $(document).ready(function() {
 	var currentHTML =
 		"<p id=\"error\" style=\"color:red\"></p>"+
-	" Enter the qid: <input type=\"text\" id = \"qqqid\" name=\"qqqid\">"+
-    " Enter the problem: <input type=\"text\" id = \"ppproblem\" name=\"pproblem\">"+
-    " Enter the topic: <input type=\"text\" id = \"tttopic\" name=\"tttopic\" onchange=loadQuestions()>"+
-    " Enter the maximum marks: <input type=\"text\" id = \"mmarks\" name=\"mmarks\">"+
-    "<button type=\"button\" onclick=\"addTheQues()\">Add the question</button> ";
+	" Enter the topic: <input type=\"text\" id = \"tttopic\" name=\"tttopic\" onchange=loadQuestions()><br>"+
+    " Enter the maximum marks: <input type=\"text\" id = \"mmarks\" name=\"mmarks\"><br><br>";
     
-	var tableHTML = "<table id=\"quesTable\"> " + tableStr + " </table>";
+    
+	var tableHTML = "<table id=\"quesTable\" cellspacing=5> " + tableStr + " </table>";
 	
 	document.getElementById("content").innerHTML =
         currentHTML+tableHTML;
@@ -89,11 +87,13 @@ $(document).ready(function() {
 //    loadSections();
 });
 
-function fillThis(textToAdd, idToAdd){
-	console.log(textToAdd);
-	console.log(idToAdd);
+function fillThis(idToAdd){
+//	console.log(textToAdd);
+//	console.log(idToAdd);
 //	document.getElementById("ppproblem").value = textToAdd;
-	document.getElementById("qqqid").value = idToAdd;
+	
+//	document.getElementById("qqqid").value = idToAdd;
+	addTheQues(idToAdd);
 }
 
 function fillTable(mydata){
@@ -105,9 +105,8 @@ function fillTable(mydata){
 	for (var i = 0; i < mydata.length; i++){
 		var prText = mydata[i]["label"];
 		var prId = mydata[i]["value"];
-		var strToAdd = "<tr onclick=fillThis(\"" + "aman" + "\",\"" + prId + "\") >";
+		var strToAdd = "<tr onclick=fillThis(\"" + prId + "\") >";
 		console.log(strToAdd);
-		strToAdd += "<td> " + prId + "</td";
 		strToAdd += "<td> " + prText + "</td";	
 		strToAdd += "</tr>";
 		mytable.innerHTML += strToAdd;
@@ -116,7 +115,7 @@ function fillTable(mydata){
 
 function loadQuestions(){
 	var currtopic = document.getElementById("tttopic").value;
-	console.log(currtopic);
+//	console.log(currtopic);
 	$.ajax({
         type: "GET",
         url: "AutoCompleteQuestion",

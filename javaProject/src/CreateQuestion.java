@@ -1,9 +1,6 @@
 
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,50 +27,52 @@ public class CreateQuestion extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		if(session.getAttribute("id") == null || session.getAttribute("role") == null) {
 			response.sendRedirect("login.html");
+			System.out.println("User not logged in");
+			return;
 		}
 		
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
-		String qzid = (String) request.getParameter("qzid");
 		if(!role.equals("instructor")) {
-			response.getWriter().print("{\"status\": false, \"message\": \"User is not an instructor\"}");
-			return;
+			response.sendRedirect("illegalAccess.html");
 		}
-		if(qzid == null) {
-			response.getWriter().print("{\"status\": false, \"message\": \"Quiz ID not passed as get parameter\"}");
-			return;
+		else {
+			String html = "<html><head><title>Instructor Home</title>" + 
+					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
+					"    <script src=\"jquery-ui.min.js\"></script>" + 
+	
+					"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
+					"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
+					
+					"	 <script src=\"create_question.js\"></script>" +
+					"</head>" + 
+					"<body>\n" + 
+					"<button type=\"button\" onclick=\"goBack()\">Back to Home</button><br>\n" + 
+					"	<h1>Create a New Question</h1>\n" + 
+					"	\n" + 
+					"	<p id=\"error\" style=\"color:red\"></p>\n" + 
+					"	<form>\n" + 
+					"		\n" + 
+					"		Question<br> <input type=\"text\" name=\"question\" id=\"question\" maxlength=\"2000\" required> <br>\n" +  
+					"		<p id=\"currtopics\">Current Topics:</p>\n" + 
+					"		<p id=\"addingTopics\"> Add a new Topic <br> <input type=\"text\" name=\"newtop\" id=\"newtop\" onchange=addTopic() maxlength=\"1000\"> \n<br><br>" +  
+					"		<!-- <input type=\"radio\" name=\"role\" value=\"TA\"> Teaching assistant <br> <br> -->\n" +
+					"		<input type=\"radio\" name=\"role\" value=\"objective\" onclick=\"makeO()\" checked> Objective <br>\n" + 
+					"		<input type=\"radio\" name=\"role\" value=\"subjective\" onclick=\"makeS()\"> Subjective <br>\n" + 
+					"		<p id=\"adding\"> Add a new option <br> <input type=\"text\" name=\"newop\" id=\"newop\" maxlength=\"1000\"> <br><br><button type=\"button\" onclick=\"addOption()\"> Add Options</button></p>\n" + 
+					"		<!-- <input type=\"radio\" name=\"role\" value=\"TA\"> Teaching assistant <br> <br> -->\n" + 
+					"		<p id=\"options\">Current Options:</p>\n" + 
+					"		<button type=\"button\" onclick=\"validateForm()\">Create Question</button>\n" + 
+					"	</form>\n" + 
+					"</body>"
+					+ "</html>" ;
+			response.setContentType("text/html");
+			response.getWriter().print(html);
 		}
-		int qz_int = Integer.parseInt(qzid);
-		String query =
-				"select * "
-				+ "from takes "
-				+ "where sid = ? and secid = ? ;";
-		List<List<Object>> res = DbHelper.executeQueryList(query, 
-				new DbHelper.ParamType[] { 
-						DbHelper.ParamType.STRING,
-						DbHelper.ParamType.INT}, 
-				new Object[] {id, qzid});
-		
-		if(res.isEmpty()) {
-			response.getWriter().print(DbHelper.errorJson("Student is not enrolled in the section"));
-			return;
-		}
-		String query1 =  //TODO: verify query
-				"select qzid, qzname "
-				+ "from quiz "
-				+ "where secid = ? and start <= now() "
-				+ "order by start desc ;";
-		String res1 = DbHelper.executeQueryJson(query1, 
-				new DbHelper.ParamType[] {
-						DbHelper.ParamType.INT,}, 
-				new Object[] {qzid});
-		
-		PrintWriter out = response.getWriter();
-		out.print(res1);
 	}
 
 	/**
