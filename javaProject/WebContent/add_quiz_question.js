@@ -109,7 +109,7 @@ function loadQuestions(){
 	$.ajax({
         type: "GET",
         url: "AutoCompleteQuestion",
-        data: {"partial": qzid, "topic" : "", "objective" : "1", "subjective" : "1"},
+        data: {"partial": "", "topic" : "", "objective" : "1", "subjective" : "1"},
         success: function(data){
         	console.log(data);
         	var data1 = (jQuery.parseJSON(data));
