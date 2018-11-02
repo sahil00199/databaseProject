@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,8 +40,15 @@ public class AutoCompleteTopic extends HttpServlet {
 			return;
 		}
 		String partial = (String) request.getParameter("partial");
-		String courseid = (String) request.getParameter("courseid");
+		String qzid = (String) request.getParameter("qzid");
+		if (partial.equals("%")) {partial = "";}
 		partial = partial + "%";
+		//System.out.println(qzid);
+		String initialQuery = " select courseid from quiz natural join section where qzid = ?;";
+		List<List<Object> > returnValue = DbHelper.executeQueryList(initialQuery, new DbHelper.ParamType[] {DbHelper.ParamType.INT},
+				new String[] {qzid});
+		String courseid = (String) returnValue.get(0).get(0);
+		//System.out.println(courseid);
 		String query = "select topicname as label, topicname as value "
 				+ "from topic "
 				+ "where courseid = ? and topicname like ?";
