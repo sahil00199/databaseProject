@@ -77,9 +77,46 @@ public class CreateSubQuestion extends HttpServlet {
 		String qid = Integer.toString((int) quidList.get(0).get(0));
 		String query3 = "insert into option values(?, true, 1, ?)";
 		
-		String json = DbHelper.executeUpdateJson(query3, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
+		boolean status = DbHelper.executeUpdateBool(query3, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
                 DbHelper.ParamType.STRING}, new String [] {qid, answer});
-		response.getWriter	().print(json);
+		
+		if (!status)
+		{
+			ObjectMapper mapper = new ObjectMapper();
+	    	ObjectNode node = mapper.createObjectNode();
+	    	node.put(DbHelper.STATUS_LABEL, false);
+	    	response.getWriter().print(node.toString());
+	    	return;
+		}
+		
+		int tLength = Integer.parseInt((String) request.getParameter("tLength"));
+		String query4 = "insert into questiontopic(topicid, qid) select distinct topicid, ? as qid from topic, teaches "
+				+ "where iid = ? and topicname = ?;";
+		for (int i = 0 ; i < tLength ; i ++)
+		{
+			String param1 = "topic" + Integer.toString(i);
+			//String param2 = "isCorrect" + Integer.toString(i);
+			//String option = request.getParameter(param1);
+			//String isCorrect = request.getParameter(param2);
+			String topicname = request.getParameter(param1);
+			
+			status = DbHelper.executeUpdateBool(query4, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
+                DbHelper.ParamType.STRING,
+                DbHelper.ParamType.STRING}, new String [] {qid, iid, topicname});
+			if (!status)
+			{
+				ObjectMapper mapper = new ObjectMapper();
+		    	ObjectNode node = mapper.createObjectNode();
+		    	node.put(DbHelper.STATUS_LABEL, false);
+		    	response.getWriter().print(node.toString());
+	    		return;
+			}
+		}
+		ObjectMapper mapper = new ObjectMapper();
+    	ObjectNode node = mapper.createObjectNode();
+    	node.put(DbHelper.STATUS_LABEL, true);
+    	response.getWriter().print(node.toString());
+		System.out.println(node.toString());
 		return;
 	}
 

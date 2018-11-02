@@ -113,6 +113,38 @@ public class CreateObjQuestion extends HttpServlet {
 			}
 		}
 		
+		int tLength = Integer.parseInt((String) request.getParameter("tLength"));
+		String query4 = "insert into questiontopic(topicid, qid) select distinct topicid, ? as qid from topic, teaches "
+				+ "where iid = ? and topicname = ?;";
+		for (int i = 0 ; i < tLength ; i ++)
+		{
+			String param1 = "topic" + Integer.toString(i);
+			//String param2 = "isCorrect" + Integer.toString(i);
+			//String option = request.getParameter(param1);
+			//String isCorrect = request.getParameter(param2);
+			String topicname = request.getParameter(param1);
+			
+			status = DbHelper.executeUpdateBool(query4, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
+                DbHelper.ParamType.STRING,
+                DbHelper.ParamType.STRING}, new String [] {qid, iid, topicname});
+			if (!status)
+			{
+				ObjectMapper mapper = new ObjectMapper();
+		    	ObjectNode node = mapper.createObjectNode();
+		    	node.put(DbHelper.STATUS_LABEL, false);
+		    	response.getWriter().print(node.toString());
+//		    	System.out.println(Integer.toStrinsg(i));
+//	    		System.out.println(qid);
+//	    		System.out.println(i);
+//	    		System.out.println(param1);
+//	    		System.out.println(param2);
+//	    		System.out.println(option);
+//	    		System.out.println(isCorrect);
+	    		return;
+			}
+		}
+		
+		
 		ObjectMapper mapper = new ObjectMapper();
     	ObjectNode node = mapper.createObjectNode();
     	node.put(DbHelper.STATUS_LABEL, true);
