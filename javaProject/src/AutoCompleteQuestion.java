@@ -50,33 +50,62 @@ public class AutoCompleteQuestion extends HttpServlet {
 		int isSubj = Integer.parseInt(subjective);
 		partial = partial + "%";
 		String query = "";
-		if (isObj == 1 && isSubj == 0)
+		if (isObj == 1 && isSubj == 0 && !topicid.equals(""))
 		{
 			query = "select problem as label, problem as value from (question "
 					+ "natural inner join topic) where topicid = ? "
 					+ "and problem like ? and isObjective=true;";
 		}
-		else if (isObj == 0 && isSubj == 1)
+		else if (isObj == 0 && isSubj == 1 && !topicid.equals(""))
 		{
 			query = "select problem as label, problem as value from (question "
 					+ "natural inner join topic) where topicid = ? "
 					+ "and problem like ? and isObjective=false;";
 		}
-		else if (isObj == 1 && isSubj == 1)
+		else if (isObj == 1 && isSubj == 1 && !topicid.equals(""))
 		{
 			query = "select problem as label, problem as value from (question "
 					+ "natural inner join topic) where topicid = ? "
 					+ "and problem like ?";
+		}
+		else if (isObj == 1 && isSubj == 0 && topicid.equals(""))
+		{
+			query = "select problem as label, problem as value from (question "
+					+ "natural inner join topic) where "
+					+ "problem like ? and isObjective=true;";
+		}
+		else if (isObj == 0 && isSubj == 1 && topicid.equals(""))
+		{
+			query = "select problem as label, problem as value from (question "
+					+ "natural inner join topic) where "
+					+ "problem like ? and isObjective=false;";
+		}
+		else if (isObj == 1 && isSubj == 1 && topicid.equals(""))
+		{
+			query = "select problem as label, problem as value from (question "
+					+ "natural inner join topic) where "
+					+ "	problem like ?";
 		}
 		else
 		{
 			response.getWriter().print("\"data\":[],\"status\":true");
 			return;
 		}
-		String res = DbHelper.executeQueryJson(query, 
-				new DbHelper.ParamType[] {DbHelper.ParamType.INT,
-						DbHelper.ParamType.STRING}, 
-				new String[] {topicid, partial});
+		String res = "";
+		if (topicid.equals(""))
+		{
+			res = DbHelper.executeQueryJson(query, 
+					new DbHelper.ParamType[] {
+							DbHelper.ParamType.STRING}, 
+					new String[] {partial});
+		}
+		else
+		{
+			res = DbHelper.executeQueryJson(query, 
+					new DbHelper.ParamType[] {DbHelper.ParamType.INT,
+							DbHelper.ParamType.STRING}, 
+					new String[] {topicid, partial});
+		}
 		PrintWriter out = response.getWriter();
 		out.print(res);
 			
