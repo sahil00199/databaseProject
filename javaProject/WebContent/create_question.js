@@ -138,6 +138,7 @@ function addOption(){
 	/* console.log(newop); */
 	if (newop == "")
 	{
+//		console.log("again");
 		setError("Empty option cannot be added");	
 	}
 	else {
@@ -178,12 +179,14 @@ function addTopic(){
 	/* console.log(newop); */
 	if (newtop == "")
 	{
+//		console.log("again");
 		setError("Empty topic cannot be added");	
+		document.getElementById("newtop").value = "";
 	}
 	else {
 		var flag = 0;
 		for (var i = 0; i < allTopics.length; i++){
-			if (newtop.equals(allTopics[i])) {
+			if (newtop == allTopics[i]) {
 				flag = 1;
 				break;
 			}

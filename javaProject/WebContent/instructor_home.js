@@ -46,9 +46,9 @@ function loadSections(){
         type: "GET",
         url: "InstructorSections",
         success: function(data){
-        	console.log(data);
+//        	console.log(data);
         	var data1 = (jQuery.parseJSON(data));
-        	console.log(data1);
+//        	console.log(data1);
         	if(data1.status){
 	            buildList(
 	                data1.data,
