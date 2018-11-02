@@ -1,3 +1,15 @@
+function topicList(result, list)
+{
+    // Remove current options
+    list.html('');
+    if(result != ''){
+    	var str = 'Topics: <br>';
+		$.each(result, function(k, v) {
+			str+= v.topicname + "<br>";
+        });
+		list.html(str);
+    }
+}
 function optionList(result, qlist, ans, isObjective)
 {
     // Remove current options
@@ -36,9 +48,29 @@ function questionList(result, list, qzid)
 			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "         [Marks:"+v.maxmarks.toString()+ "]</p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
-			answer = "<p id = ans" + v.qid + "> </p><br>";
+			var topics = "<p id = topic" + v.qid + "> </p>";
+			list.append(topics);
+			$.ajax({
+		        type: "GET",
+		        url: "QuestionTopic",
+		        data: {"qid": v.qid},
+		        success: function(data){
+		        	var data1 = (jQuery.parseJSON(data));
+		        	if(data1.status){
+			            topicList(
+			                data1.data,
+			                $('#topic' + v.qid)
+			            );
+		        	}
+		        	else{
+		        		alert(data1.message);
+		        		window.location.replace("illegalAccess.html");
+		        	}
+		        }
+		    }); 
+			var answer = "<p id = ans" + v.qid + "> </p>";
 			list.append(answer);
-			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form>";
+			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form><br>";
 			list.append(removeQuestion);
     		$.ajax({
 		        type: "GET",
@@ -66,11 +98,16 @@ function questionList(result, list, qzid)
 
 $(document).ready(function() {
 //	document.title = "Course:"
-    document.getElementById("content").innerHTML =
-            "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
-    document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
-    $.ajax({
+    document.getElementById("content").innerHTML =
+        "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>\n"+
+        "<div id = \"questions\"></div><br>";
+    questions();
+});
+
+function questions(){
+	$('#questions').html('');
+	$.ajax({
         type: "GET",
         url: "InstructorQuizQuestions",
         data: {"qzid": qzid},
@@ -90,7 +127,7 @@ $(document).ready(function() {
         	}
         }
     });   
-});
+}
 
 function removeQuestion(qid)
 {
@@ -112,28 +149,27 @@ function removeQuestion(qid)
 	});
 	document.getElementById("content").innerHTML =
         "<div id = \"questions\"></div><br>";
-document.getElementById("heading").innerHTML =  "Quiz";
-document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
-$.ajax({
-    type: "GET",
-    url: "InstructorQuizQuestions",
-    data: {"qzid": qzid},
-    success: function(data){
-//    	console.log(data);
-    	var data1 = (jQuery.parseJSON(data));
-    	if(data1.status){
-            questionList(
-                data1.data,
-                $('#questions'),
-                qzid
-            );
-    	}
-    	else{
-    		window.location.replace("illegalAccess.html");
-    		console.log(data1.message);
-    	}
-    }
-}); 
-	
-		}
+	document.getElementById("heading").innerHTML =  "Quiz";
+	document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
+	$.ajax({
+	    type: "GET",
+	    url: "InstructorQuizQuestions",
+	    data: {"qzid": qzid},
+	    success: function(data){
+	//    	console.log(data);
+	    	var data1 = (jQuery.parseJSON(data));
+	    	if(data1.status){
+	            questionList(
+	                data1.data,
+	                $('#questions'),
+	                qzid
+	            );
+	    	}
+	    	else{
+	    		window.location.replace("illegalAccess.html");
+	    		console.log(data1.message);
+	    	}
+	    }
+	}); 
+}
 
