@@ -131,11 +131,12 @@ create table questionTopic(
 	primary key(qID, topicID)
 );
 
-create table response(
+create table response(	
 	sID varchar(50),
 	qID integer,
 	qzID integer,
 	answer varchar(5000),
+	isObjective bool,
 	timeTaken interval,
 	isAttempted bool,
 	marksObtained float(2),
