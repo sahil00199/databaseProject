@@ -70,12 +70,7 @@ $(document).ready(function() {
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
     document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
-    questions();
-});
-
-function questions(){
-	$('#questions').html('');
-	$.ajax({
+    $.ajax({
         type: "GET",
         url: "InstructorQuizQuestions",
         data: {"qzid": qzid},
@@ -95,7 +90,8 @@ function questions(){
         	}
         }
     });   
-}
+});
+
 function removeQuestion(qid)
 {
 	$.ajax({
@@ -106,14 +102,38 @@ function removeQuestion(qid)
 //	    	console.log(data);
 	    	var data1 = (jQuery.parseJSON(data));
 	    	if(data1.status){
-	            questions();
+	            
 	    	}
 	    	else{
-	    		alert(data1.message);
 	    		window.location.replace("illegalAccess.html");
 	    		console.log(data1.message);
 	    	}
 	    }
 	});
-}
+	document.getElementById("content").innerHTML =
+        "<div id = \"questions\"></div><br>";
+document.getElementById("heading").innerHTML =  "Quiz";
+document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
+$.ajax({
+    type: "GET",
+    url: "InstructorQuizQuestions",
+    data: {"qzid": qzid},
+    success: function(data){
+//    	console.log(data);
+    	var data1 = (jQuery.parseJSON(data));
+    	if(data1.status){
+            questionList(
+                data1.data,
+                $('#questions'),
+                qzid
+            );
+    	}
+    	else{
+    		window.location.replace("illegalAccess.html");
+    		console.log(data1.message);
+    	}
+    }
+}); 
+	
+		}
 
