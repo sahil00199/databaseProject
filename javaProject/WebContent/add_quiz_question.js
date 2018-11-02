@@ -53,7 +53,7 @@ $(document).ready(function() {
 		"<p id=\"error\" style=\"color:red\"></p>"+
 	" Enter the qid: <input type=\"text\" id = \"qqqid\" name=\"qqqid\">"+
     " Enter the problem: <input type=\"text\" id = \"ppproblem\" name=\"pproblem\">"+
-    " Enter the topic: <input type=\"text\" id = \"tttopic\" name=\"tttopic\">"+
+    " Enter the topic: <input type=\"text\" id = \"tttopic\" name=\"tttopic\" onchange=loadQuestions()>"+
     " Enter the maximum marks: <input type=\"text\" id = \"mmarks\" name=\"mmarks\">"+
     "<button type=\"button\" onclick=\"addTheQues()\">Add the question</button> ";
     
@@ -76,7 +76,9 @@ $(document).ready(function() {
             xhttp.onreadystatechange = function(){
                  if (this.readyState == 4 && this.status == 200){
                      json= JSON.parse(this.responseText);
+//                     console.log(document.getElementById("tttopic").value);
                      response(json.data);
+//                     console.log(document.getElementById("tttopic").value);
                  }
             }
             xhttp.open("GET", "AutoCompleteTopic?partial="+request.term + "&qzid="+qzid, true);
@@ -87,40 +89,49 @@ $(document).ready(function() {
 //    loadSections();
 });
 
-function FillThis(textToAdd, idToAdd){
-	document.getElementById("ppproblem").value = textToAdd;
-	document.getElementById("tttopic").value = idToAdd;
+function fillThis(textToAdd, idToAdd){
+	console.log(textToAdd);
+	console.log(idToAdd);
+//	document.getElementById("ppproblem").value = textToAdd;
+	document.getElementById("qqqid").value = idToAdd;
 }
 
 function fillTable(mydata){
-	console.log("filling now...");
-	console.log("")
+//	console.log("filling now...");
+//	console.log(mydata)
+	
 	var mytable = document.getElementById("quesTable");
-	var prText = mydata["label"];
-	var prId = mydata["value"];
-	var strToAdd = "<tr onclick=\"FillThis(" + prText + ", " + prId + ")\" >";
-	strToAdd += "<td> " + prId + "</td";
-	strToAdd += "<td> " + prText + "</td";
-	strToAdd += "</tr>";
-	mytable.innerHTML += strToAdd;
+	mytable.innerHTML = "";
+	for (var i = 0; i < mydata.length; i++){
+		var prText = mydata[i]["label"];
+		var prId = mydata[i]["value"];
+		var strToAdd = "<tr onclick=fillThis(\"" + "aman" + "\",\"" + prId + "\") >";
+		console.log(strToAdd);
+		strToAdd += "<td> " + prId + "</td";
+		strToAdd += "<td> " + prText + "</td";	
+		strToAdd += "</tr>";
+		mytable.innerHTML += strToAdd;
+	}
 }
 
 function loadQuestions(){
+	var currtopic = document.getElementById("tttopic").value;
+	console.log(currtopic);
 	$.ajax({
         type: "GET",
         url: "AutoCompleteQuestion",
-        data: {"partial": "", "topic" : "", "objective" : "1", "subjective" : "1"},
+        data: {"partial": "", "topic" : currtopic, "quizid" : qzid, "objective" : "1", "subjective" : "1"},
         success: function(data){
-        	console.log(data);
+//        	console.log(data);
         	var data1 = (jQuery.parseJSON(data));
         	if(data1.status){
-        		console.log("this " + data1.message + "\n");
+//        		console.log("this " + data1.message + "\n");
         		fillTable(
 	                data1.data
 	            );
         	}
         	else{
-        		console.log("this " + data1.message + "\n");
+//        		console.log("this " + data1.message + "\n");
         		setError(data1.message);
 //        		window.location.replace("illegalAccess.html");
         	}

@@ -74,7 +74,7 @@ public class AddQuizQuestion extends HttpServlet {
 				"	 <script src=\"add_quiz_question.js\"></script>" +
 				"</head>" + 
 				"<body>"+
-				"<button type=\"button\" onclick=\"goBack()\">Back to Home</button><br>"
+				"<button type=\"button\" onclick=window.location.replace(\"InstructorHome\")>Back to Home</button><br>"
 				+ "<h1 id = \"heading\"></h1>" + 
 				"    <div id=\"content\">" +
 				"	 </div> "

@@ -54,41 +54,41 @@ public class AutoCompleteQuestion extends HttpServlet {
 		String query = "";
 		if (isObj == 1 && isSubj == 0 && !topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from (question natural inner join questiontopic "
+			query = "select problem as label, qid as value from (question natural inner join questiontopic "
 					+ "natural inner join (select topicid from topic natural join (select "
 					+ "courseid from quiz natural inner join section where qzid = ?) as temp "
-					+ "where topicname like ?) as temp2) where topicname = ? "
-					+ "and problem like ? and isObjective=true and iid = ?;";
+					+ "where topicname like ?) as temp2) where"
+					+ " problem like ? and isObjective=true and iid = ?;";
 		}
 		else if (isObj == 0 && isSubj == 1 && !topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from (question natural inner join questiontopic "
+			query = "select problem as label, qid as value from (question natural inner join questiontopic "
 					+ "natural inner join (select topicid from topic natural join (select "
 					+ "courseid from quiz natural inner join section where qzid = ?) as temp "
-					+ "where topicname like ?) as temp2) where topicname = ? "
-					+ "and problem like ? and isObjective=false and iid = ?;";
+					+ "where topicname like ?) as temp2) where "
+					+ "problem like ? and isObjective=false and iid = ?;";
 		}
 		else if (isObj == 1 && isSubj == 1 && !topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from (question natural inner join questiontopic "
+			query = "select problem as label, qid as value from (question natural inner join questiontopic "
 					+ "natural inner join (select topicid from topic natural join (select "
 					+ "courseid from quiz natural inner join section where qzid = ?) as temp "
-					+ "where topicname like ?) as temp2) where topicname = ? "
-					+ "and problem like ? and iid = ?;";
+					+ "where topicname like ?) as temp2) where "
+					+ "problem like ? and iid = ?;";
 		}
 		else if (isObj == 1 && isSubj == 0 && topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from (question where "
+			query = "select problem as label, qid as value from (question where "
 					+ "problem like ? and isObjective=true and iid = ?;";
 		}
 		else if (isObj == 0 && isSubj == 1 && topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from question where "
+			query = "select problem as label, qid as value from question where "
 					+ "problem like ? and isObjective=false and iid = ?;";
 		}
 		else if (isObj == 1 && isSubj == 1 && topicname.equals(""))
 		{
-			query = "select problem as label, problem as value from question where "
+			query = "select problem as label, qid as value from question where "
 					+ "	problem like ? and iid = ?";
 		}
 		else
@@ -97,21 +97,24 @@ public class AutoCompleteQuestion extends HttpServlet {
 			return;
 		}
 		String res = "";
-		if (topicname.equals(""))
+		if (!topicname.equals(""))
+		{
+			res = DbHelper.executeQueryJson(query, 
+					new DbHelper.ParamType[] {
+							DbHelper.ParamType.INT,
+//							DbHelper.ParamType.STRING,
+							DbHelper.ParamType.STRING,
+							DbHelper.ParamType.STRING,
+							DbHelper.ParamType.STRING}, 
+					new String[] {quizid, topicname, partial, iid});
+		}
+		else
 		{
 			res = DbHelper.executeQueryJson(query, 
 					new DbHelper.ParamType[] {
 							DbHelper.ParamType.STRING,
 							DbHelper.ParamType.STRING}, 
 					new String[] {partial, iid});
-		}
-		else
-		{
-			res = DbHelper.executeQueryJson(query, 
-					new DbHelper.ParamType[] {DbHelper.ParamType.INT,
-							DbHelper.ParamType.STRING,
-							DbHelper.ParamType.STRING}, 
-					new String[] {topicname, partial, iid});
 		}
 		System.out.println(res);
 		PrintWriter out = response.getWriter();

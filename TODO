@@ -10,11 +10,11 @@
 
 -- display topic in instructor topic
 
+-- After we create a new user it shows incorrect password when trying to login from a new account
 
+-- Remove quizid input field from add_quiz_question.js
 
-
-
-
+-- Create button of isobjective and issubjective in add_quiz_question
 
 
 
