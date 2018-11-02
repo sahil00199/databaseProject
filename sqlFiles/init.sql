@@ -125,7 +125,7 @@ create table questionTopic(
 	qID integer,
 	topicID integer,
 	foreign key (qID) references question
-		on delete set null,
+		on delete cascade,
 	foreign key (topicID) references topic
 		on delete set null,
 	primary key(qID, topicID)

@@ -38,6 +38,8 @@ function questionList(result, list)
 			list.append(question);
 			answer = "<p id = ans" + v.qid + "> </p><br>";
 			list.append(answer);
+			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form>";
+			list.append(removeQuestion);
     		$.ajax({
 		        type: "GET",
 		        url: "InstructorQuesOptions",
@@ -67,6 +69,12 @@ $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Database";
+    questions();
+});
+
+
+function questions(){
+	$('#questions').html('');
     $.ajax({
         type: "GET",
         url: "InstructorQuestions",
@@ -86,4 +94,25 @@ $(document).ready(function() {
         	}
         }
     });   
-});
+}
+
+function removeQuestion(qid)
+{
+	$.ajax({
+	    type: "GET",
+	    url: "DeleteQuestion",
+	    data: {"qid" :qid},
+	    success: function(data){
+//	    	console.log(data);
+	    	var data1 = (jQuery.parseJSON(data));
+	    	if(data1.status){
+	            questions();
+	    	}
+	    	else{
+	    		alert(data1.message);
+	    		window.location.replace("illegalAccess.html");
+	    		console.log(data1.message);
+	    	}
+	    }
+	});
+}
