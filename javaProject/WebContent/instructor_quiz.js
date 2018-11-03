@@ -1,3 +1,16 @@
+function topicList(result, list)
+{
+    // Remove current options
+    list.html('');
+    ans.html('Topics: ');
+    if(result != ''){
+    	var str = "";
+		$.each(result, function(k, v) {
+			str+= v.topicname + ", ";
+        });
+		list.html(str);
+    }
+}
 function optionList(result, qlist, ans, isObjective)
 {
     // Remove current options
@@ -36,7 +49,27 @@ function questionList(result, list, qzid)
 			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "         [Marks:"+v.maxmarks.toString()+ "]</p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
-			answer = "<p id = ans" + v.qid + "> </p><br>";
+			var topics = "<p id = topic" + v.qid + "> </p><br>";
+			list.append(topics);
+			$.ajax({
+		        type: "GET",
+		        url: "QuestionTopic",
+		        data: {"qid": v.qid},
+		        success: function(data){
+		        	var data1 = (jQuery.parseJSON(data));
+		        	if(data1.status){
+			            topicList(
+			                data1.data,
+			                $('#topic' + v.qid)
+			            );
+		        	}
+		        	else{
+		        		alert(data1.message);
+		        		window.location.replace("illegalAccess.html");
+		        	}
+		        }
+		    }); 
+			var answer = "<p id = ans" + v.qid + "> </p><br>";
 			list.append(answer);
 			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form>";
 			list.append(removeQuestion);
@@ -66,10 +99,10 @@ function questionList(result, list, qzid)
 
 $(document).ready(function() {
 //	document.title = "Course:"
-    document.getElementById("content").innerHTML =
-            "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
-    document.getElementById("heading").innerHTML +=  "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>";
+    document.getElementById("content").innerHTML =
+        "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>\n"+
+        "<div id = \"questions\"></div><br>";
     questions();
 });
 
