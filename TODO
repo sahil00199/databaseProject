@@ -18,6 +18,8 @@
 
 -- Add quiz to section
 
+-- Adding various types of questions (such as numeric answer etc.), not radio options in login.html, remove random alerts (for ex. on successful save of student's answer).
+
 
 
 
