@@ -113,6 +113,8 @@ public class CreateObjQuestion extends HttpServlet {
 			}
 		}
 		
+		System.out.println("==============================================================================+++++");
+		System.out.println((String) request.getParameter("tLength"));
 		int tLength = Integer.parseInt((String) request.getParameter("tLength"));
 		String query4 = "insert into questiontopic(topicid, qid) select distinct topicid, ? as qid from topic, teaches "
 				+ "where iid = ? and topicname = ?;";
@@ -123,6 +125,8 @@ public class CreateObjQuestion extends HttpServlet {
 			//String option = request.getParameter(param1);
 			//String isCorrect = request.getParameter(param2);
 			String topicname = request.getParameter(param1);
+			System.out.println(param1);
+			System.out.println(topicname);
 			
 			status = DbHelper.executeUpdateBool(query4, new DbHelper.ParamType[] {DbHelper.ParamType.INT,
                 DbHelper.ParamType.STRING,

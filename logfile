@@ -18,3 +18,11 @@
 2018-10-27 17:36:07.289 IST [1785] ERROR:  syntax error at or near ":" at character 22
 2018-10-27 17:36:07.289 IST [1785] STATEMENT:  select * from section:
 	;
+2018-11-03 10:11:48.009 IST [16572] LOG:  listening on IPv4 address "127.0.0.1", port 5050
+2018-11-03 10:11:48.099 IST [16572] LOG:  listening on Unix socket "/home/sahil/postgresql/.s.PGSQL.5050"
+2018-11-03 10:11:48.244 IST [16573] LOG:  database system was shut down at 2018-11-03 10:11:45 IST
+2018-11-03 10:11:48.326 IST [16572] LOG:  database system is ready to accept connections
+2018-11-03 10:30:30.978 IST [18104] ERROR:  column "newquestion" does not exist at character 39
+2018-11-03 10:30:30.978 IST [18104] STATEMENT:  delete from question where question = newquestion;
+2018-11-03 10:30:35.769 IST [18104] ERROR:  input of anonymous composite types is not implemented at character 39
+2018-11-03 10:30:35.769 IST [18104] STATEMENT:  delete from question where question = 'newquestion';

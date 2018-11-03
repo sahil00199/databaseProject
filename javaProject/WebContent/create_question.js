@@ -83,11 +83,12 @@ function validateForm(){
 		    
 		  }
 		};
-		var topstring = "&tlength=" + allTopics.length;
+		var topstring = "&tLength=" + allTopics.length;
 		for (var i = 0; i < allTopics.length; i++) {
 			topstring += "&topic" + i + "=" + allTopics[i];
 		}
 		var toSend = "&question="+ques + "&answer=" + ans + topstring;
+		console.log(toSend);
 		xhttp.open("POST", "CreateSubQuestion", true);
 		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		console.log(toSend);
@@ -112,7 +113,7 @@ function validateForm(){
 		
 		xhttp.open("POST", "CreateObjQuestion", true);
 		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		var topstring = "&tlength=" + allTopics.length;
+		var topstring = "&tLength=" + allTopics.length;
 		for (var i = 0; i < allTopics.length; i++) {
 			topstring += "&topic" + i + "=" + allTopics[i];
 		}
