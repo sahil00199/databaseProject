@@ -2,11 +2,10 @@ function topicList(result, list)
 {
     // Remove current options
     list.html('');
-    ans.html('Topics: ');
     if(result != ''){
-    	var str = "";
+    	var str = 'Topics: <br>';
 		$.each(result, function(k, v) {
-			str+= v.topicname + ", ";
+			str+= v.topicname + "<br>";
         });
 		list.html(str);
     }
@@ -49,7 +48,7 @@ function questionList(result, list, qzid)
 			var question = "<p>Q."+ k1.toString() + ": " + v.problem + "         [Marks:"+v.maxmarks.toString()+ "]</p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
-			var topics = "<p id = topic" + v.qid + "> </p><br>";
+			var topics = "<p id = topic" + v.qid + "> </p>";
 			list.append(topics);
 			$.ajax({
 		        type: "GET",
@@ -69,9 +68,9 @@ function questionList(result, list, qzid)
 		        	}
 		        }
 		    }); 
-			var answer = "<p id = ans" + v.qid + "> </p><br>";
+			var answer = "<p id = ans" + v.qid + "> </p>";
 			list.append(answer);
-			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form>";
+			var removeQuestion = "<form> <button type=\"button\" onclick=\"removeQuestion("+v.qid+")\" > Remove Question</button> </form><br>";
 			list.append(removeQuestion);
     		$.ajax({
 		        type: "GET",
