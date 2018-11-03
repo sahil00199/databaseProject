@@ -30,6 +30,8 @@ public class InstructorHome extends HttpServlet {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("id") == null || session.getAttribute("role") == null) {
 			response.sendRedirect("login.html");
+			System.out.println("User not logged in");
+			return;
 		}
 		
 		String id = (String) session.getAttribute("id");
@@ -52,6 +54,8 @@ public class InstructorHome extends HttpServlet {
 					+ "<h1>Instructor Home</h1>" + 
 					"    <div id=\"content\">" +
 					"	 </div> "+
+					"<a href = \"createQuestion.html\"> Add a new question </a><br><br>"+
+					"<a href = \"InstructorDB\"> View all questions </a><br><br>"+
 					"<a href = \"LogoutServlet\"> Logout </a>" 
 					+ "</body>"
 					+ "</html>" ;

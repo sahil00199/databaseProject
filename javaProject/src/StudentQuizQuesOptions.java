@@ -68,7 +68,7 @@ public class StudentQuizQuesOptions extends HttpServlet {
 		String query1 =  //TODO: verify query
 				"select isCorrect, optNum, opt "
 				+ "from question natural join option "
-				+ "where qid = ? ;";
+				+ "where qid = ? order by optNum;";
 		String res1 = DbHelper.executeQueryJson(query1, 
 				new DbHelper.ParamType[] {
 						DbHelper.ParamType.INT,}, 

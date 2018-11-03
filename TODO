@@ -1,19 +1,14 @@
--> in the database, topic has course in the primary key. Is this what we want to do? Will it be difficult to insert questions for the instructor?
--> should we serialize section because it is referenced way too many times and recursively as well
---> We should add weightage to the quiz.
+-- When inserting in "checked" ensure that the section of the quiz and ta match
 
+-- There is no pop-up box on failure of creation of a section right now
 
+-- On opening InstructorHome without logging in, there is a server error (check for all other files as well)
 
+-- modify createQuestion to take topic as well
 
+-- in deleteQuestion, delete the topics associated with it as well
 
--- When inserting in checked ensure that the section of the quiz and ta match
-
-
-
-
-
-
-
+-- display topic in instructor topic
 
 
 
@@ -34,9 +29,11 @@ xx create new course
 xx with every new section created, we need to find the threadid and then add to teaches
 -- add drop down for semesters
 -- in drop down for course, display the name as well
--- course page on clicking on course
--- add question
+xx course page on clicking on course
+xx add question
 -- check login in AllSection
+-- in InsertQuizQuestion check that the quiz and the question belong to the instructor who is adding to it
+-- if a new question is tried to add, a error message is returned but the question is added to the database
 
 
 

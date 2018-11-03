@@ -61,11 +61,25 @@ public class DeleteQuestion extends HttpServlet {
 		
 		String query1 = "delete from question where qid = ?";
 		String query2 = "delete from option where qid = ?";
+		String query3 = "delete from questiontopic where qid = ?";
         String json1 = DbHelper.executeUpdateJson(query1, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
-        String json2 = DbHelper.executeUpdateJson(query2, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
-    	
+        boolean done = DbHelper.executeUpdateBool(query2, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
+        if (!done)
+        {
+        	System.out.println("Error!!!!! Could not delete the options associated with the question");
+        	response.getWriter().print("{\"status\": false, \"message\": \"There was an error in deleting the options associated with this question\"}");
+        	return;
+        }
+        done = DbHelper.executeUpdateBool(query3, new DbHelper.ParamType[] {DbHelper.ParamType.INT}, new String[] {quid});
+        if (!done)
+        {
+        	System.out.println("Error!!!!! Could not delete the topics associated with the question");
+        	response.getWriter().print("{\"status\": false, \"message\": \"There was an error in deleting the topics associated with this question\"}");
+        	return;
+        }
         response.getWriter().print(json1);
-        response.getWriter().print(json2);
+        
+        
         return;
 	}
 

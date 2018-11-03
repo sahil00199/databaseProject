@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class InstructorDB
+ * Servlet implementation class AddQuizQuestion
  */
-@WebServlet("/InstructorDB")
-public class InstructorDB extends HttpServlet {
+@WebServlet("/AddQuizQuestion")
+public class AddQuizQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorDB() {
+    public AddQuizQuestion() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,25 +35,50 @@ public class InstructorDB extends HttpServlet {
 		
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
+		String qzid= (String) request.getParameter("qzid");
 		if(!role.equals("instructor")) {
 			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 User is not an instructor</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
 		}
-		String html = "<html><head><title>Question Database</title>" + 
+		if(qzid == null) {
+			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 Section ID not passed as get parameter</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
+		}
+		String html = "<html><head><title>Add question</title>" + 
 				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
 				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
 				"    <script src=\"jquery-ui.min.js\"></script>" + 
 
 				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
 				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
-				"	 <script src=\"instructor_db.js\"></script>" +
+
+				"    <script> var qzid = " + qzid + " </script>" +
+				"	 <script src=\"add_quiz_question.js\"></script>" +
 				"</head>" + 
 				"<body>"+
-				" <button type=\"button\" onclick=window.location.replace(\"InstructorHome\")>Back to Home</button><br>"
+				"<button type=\"button\" onclick=\"goBack()\">Back to Home</button><br>"
 				+ "<h1 id = \"heading\"></h1>" + 
 				"    <div id=\"content\">" +
 				"	 </div> "
 				+ "</body>"
-				+ "<a href = \"LogoutServlet\"> Logout </a>"
 				+ "</html>" ;
 		response.setContentType("text/html");
 		response.getWriter().print(html);
