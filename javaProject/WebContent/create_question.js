@@ -88,10 +88,10 @@ function validateForm(){
 			topstring += "&topic" + i + "=" + allTopics[i];
 		}
 		var toSend = "&question="+ques + "&answer=" + ans + topstring;
-		console.log(toSend);
+//		console.log(toSend);
 		xhttp.open("POST", "CreateSubQuestion", true);
 		xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		console.log(toSend);
+//		console.log(toSend);
 		xhttp.send(toSend);
 	}
 	else {
@@ -129,7 +129,7 @@ function validateForm(){
 			toSend += isCorrect[i]; //0 or 1
 		}
 		toSend += topstring;
-		console.log(toSend);
+//		console.log(toSend);
 		xhttp.send(toSend);
 	}
 }

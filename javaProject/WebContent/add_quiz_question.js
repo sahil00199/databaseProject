@@ -106,7 +106,7 @@ function fillTable(mydata){
 		var prText = mydata[i]["label"];
 		var prId = mydata[i]["value"];
 		var strToAdd = "<tr onclick=fillThis(\"" + prId + "\") >";
-		console.log(strToAdd);
+//		console.log(strToAdd);
 		strToAdd += "<td> " + prText + "</td";	
 		strToAdd += "</tr>";
 		mytable.innerHTML += strToAdd;

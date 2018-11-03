@@ -116,7 +116,7 @@ public class AutoCompleteQuestion extends HttpServlet {
 							DbHelper.ParamType.STRING}, 
 					new String[] {partial, iid});
 		}
-		System.out.println(res);
+//		System.out.println(res);
 		PrintWriter out = response.getWriter();
 		out.print(res);
 			
