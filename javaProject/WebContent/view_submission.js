@@ -1,5 +1,4 @@
 var n =10;
-
 var questions = new Array(200);
 var opts = new Array(200);
 function getResponse(qNum, isObjective){
