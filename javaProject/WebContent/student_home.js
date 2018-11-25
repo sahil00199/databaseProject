@@ -12,6 +12,11 @@ function buildList(result, list)
     }
 }
 
+function goBack(){ 
+	window.location.replace("StudentHome");
+}
+
+
 $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"contentList\"></div><br>";

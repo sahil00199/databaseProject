@@ -28,8 +28,7 @@ public class DbHelper {
 		STRING,
 		INT,
 		BOOL,
-		TIMESTAMP,
-		FLOAT
+		TIMESTAMP
 	}
 	
 	/**
@@ -173,9 +172,6 @@ public class DbHelper {
 			
 			if(type.equals(ParamType.STRING)) {
 				stmt.setString(i+1, (String)param);
-			}
-			else if(type.equals(ParamType.FLOAT)) {
-				stmt.setFloat(i+1, Float.parseFloat((String)param));
 			}
 			else if(type.equals(ParamType.INT)) {
 				stmt.setInt(i+1, Integer.parseInt((String)param));
