@@ -85,6 +85,7 @@ create table quiz(
 	secID integer,
 	start timestamp,
 	duration interval,
+	weightage numeric(2,2),
 	foreign key(secID) references section
 		on delete cascade,
 	primary key(qzID)
