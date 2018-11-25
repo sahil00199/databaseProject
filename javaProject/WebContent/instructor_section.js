@@ -10,6 +10,10 @@ function buildList(result, list)
     }
 }
 
+function goBack(){ 
+    window.location.replace("InstructorHome");
+}
+
 $(document).ready(function() {
 //	document.title = "Course:"
     document.getElementById("content").innerHTML =
@@ -63,12 +67,12 @@ $(document).ready(function() {
 function showCreateQuiz()
 {
     var currentHTML = "<form>" +
-    " Enter the qzname: <input type=\"text\" id = \"qname\" name=\"qname\">"+
-    " Enter the starttime: <input type=\"text\" id = \"sttime\" name=\"sttime\" placeholder=\"YYYY-MM-DD HH:MM:SS\">"+
-    " Enter the duration: <input type=\"text\" id = \"dur\" name=\"dur\" placeholder=\"days HH:MM:SS\">"+
-    " Enter the maximum marks: <input type=\"text\" id = \"maxmarks\" name=\"maxmarks\">"+
-    " Enter the weightage: <input type=\"text\" id = \"weightage\" name=\"weightage\">" +
-    "<button type=\"button\" onclick=\"createNewQuiz()\">Submit</button>"+
+    " Name of Quiz: <input type=\"text\" id = \"qname\" name=\"qname\"><br>"+
+    " Start time: <input type=\"text\" id = \"sttime\" name=\"sttime\" placeholder=\"YYYY-MM-DD HH:MM:SS\"><br>"+
+    " Duration: <input type=\"text\" id = \"dur\" name=\"dur\" placeholder=\"days HH:MM:SS\"><br>"+
+    " Maximum Marks: <input type=\"text\" id = \"maxmarks\" name=\"maxmarks\"><br>"+
+    " Weightage: <input type=\"text\" id = \"weightage\" name=\"weightage\"><br>" +
+    "<button type=\"button\" class=\"btn\" onclick=\"createNewQuiz()\">Submit</button>"+
 //    "value=\"Submit\" />"+
     "</form>";
     document.getElementById("newConvo").innerHTML = currentHTML;

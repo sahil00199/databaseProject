@@ -1,8 +1,6 @@
 
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,13 +38,49 @@ public class InstructorQuiz extends HttpServlet {
 		String qzid= (String) request.getParameter("qzid");
 		if(!role.equals("instructor")) {
 			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 User is not an instructor</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
 		}
 		if(qzid == null) {
 			response.sendRedirect("illegalAccess.html");
+//			String html = "<html><head><title>Error</title>" +
+//					"</head>" + 
+//					"<body>" +
+//					"    <div id=\"content\">" +
+//					"	 Section ID not passed as get parameter</div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+//			return;
 		}
+		String html = "<html><head><title>Quiz</title>" + 
+				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
+				"    <script src=\"jquery-ui.min.js\"></script>" + 
 
-		RequestDispatcher view = request.getRequestDispatcher("instructor_quiz.jsp");
-        view.forward(request, response);  
+				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
+				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
+
+				"    <script> var qzid = " + qzid + " </script>" +
+				"	 <script src=\"instructor_quiz.js\"></script>" +
+				"</head>" + 
+				"<body>"
+				+ "<h1 id = \"heading\"></h1>" + 
+				"    <div id=\"content\">" +
+				"	 </div> "
+				+ "</body>"
+				+ "</html>" ;
+		response.setContentType("text/html");
+		response.getWriter().print(html);
 	
 	}
 

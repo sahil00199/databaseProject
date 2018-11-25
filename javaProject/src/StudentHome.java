@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,24 +40,26 @@ public class StudentHome extends HttpServlet {
 			response.sendRedirect("illegalAccess.html");
 		}
 		else {
-			String html = "<html><head><title>Student Home</title>" + 
-					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
-					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
-					"    <script src=\"jquery-ui.min.js\"></script>" + 
-	
-					"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
-					"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
-					
-					"	 <script src=\"student_home.js\"></script>" +
-					"</head>" + 
-					"<body>"
-					+ "<h1>Student Home</h1>" + 
-					"    <div id=\"content\">" +
-					"	 </div> "
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
+//			String html = "<html><head><title>Student Home</title>" + 
+//					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+//					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
+//					"    <script src=\"jquery-ui.min.js\"></script>" + 
+//	
+//					"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
+//					"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
+//					
+//					"	 <script src=\"student_home.js\"></script>" +
+//					"</head>" + 
+//					"<body>"
+//					+ "<h1>Student Home</h1>" + 
+//					"    <div id=\"content\">" +
+//					"	 </div> "
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+			RequestDispatcher view = request.getRequestDispatcher("/studentHome.html");
+	        view.forward(request, response);
 		}
 	}
 

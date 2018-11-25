@@ -10,6 +10,11 @@ function buildList(result, list)
     }
 }
 
+function goBack(){ 
+	window.location.replace("StudentHome");
+}
+
+
 $(document).ready(function() {
 //	document.title = "Course:"
     document.getElementById("content").innerHTML =
