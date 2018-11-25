@@ -1,6 +1,7 @@
 
 function buildList(result, list)
 {
+    console.log("Came into build list");
     // Remove current options
     list.html('');
     if(result != ''){
@@ -16,13 +17,8 @@ function buildList(result, list)
 $(document).ready(function() {
     document.getElementById("content").innerHTML =
         " <a id=\"linker\" href=\"google.com\">Create Section</a><br><div id=\"newConvo\"></div>" +
-//	    	"<form id=\"newSection\" onsubmit=\"createNewSection(this.course.value, this.year.value, this.semester.value)\">" +
-//	        " Course ID: <input type=\"text\" id = \"course\" name=\"courseid\">"+
-//	        " Year: <input type=\"text\" id = \"year\" name=\"year\">"+
-//	        " Semester: <input type=\"text\" id = \"semester\" name=\"semester\">"+
-//	        "<input class=\"button\" name=\"submit\" type=\"submit\" value=\"Submit\" />"+
-//	        "</form>"+
             "<div id = \"contentList\"></div><br>";
+    loadSections();
     $("#course").autocomplete({
         source : function(request,response){
             var xhttp;
@@ -37,18 +33,16 @@ $(document).ready(function() {
             xhttp.send();
         }
     });
-    loadSections();
 });
 
 function loadSections(){
+    console.log("came into loadSections");
 	$('#contentList').html('');
 	$.ajax({
         type: "GET",
         url: "InstructorSections",
         success: function(data){
-//        	console.log(data);
         	var data1 = (jQuery.parseJSON(data));
-//        	console.log(data1);
         	if(data1.status){
 	            buildList(
 	                data1.data,
@@ -75,11 +69,11 @@ $(document).ready(function() {
 function showCreateSection()
 {
     var currentHTML =     "<form id=\"newconversation\" onsubmit=\"createNewSection(this.course.value, this.year.value, this.semester.value)\">" +
-    " Enter the courseid: <input type=\"text\" id = \"course\" name=\"courseid\">"+
-    " Enter the year: <input type=\"text\" id = \"year\" name=\"year\">"+
-    " Enter the semester: <input type=\"text\" id = \"semester\" name=\"semester\">"+
+    " Courseid: <input type=\"text\" id = \"course\" name=\"courseid\" >"+
+    " Year: <input type=\"text\" id = \"year\" name=\"year\">"+
+    " Semester: <input type=\"text\" id = \"semester\" name=\"semester\"><br><br>"+
     //"<input type=\"submit\""
-    "<input class=\"button\" name=\"submit\" type=\"submit\" " +
+    "<input class=\"btn-primary\" name=\"submit\" type=\"submit\" " +
     "value=\"Submit\" />"+
     "</form>";
     document.getElementById("newConvo").innerHTML = currentHTML;

@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,28 +42,30 @@ public class InstructorHome extends HttpServlet {
 			response.sendRedirect("illegalAccess.html");
 		}
 		else {
-			String html = "<html><head><title>Instructor Home</title>" + 
-					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
-					"<!-- Latest compiled and minified CSS -->\n" + 
-					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
-					"    <script src=\"jquery-ui.min.js\"></script>" + 
-	
-					"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
-					"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
-					
-					"	 <script src=\"instructor_home.js\"></script>" +
-					"</head>" + 
-					"<body>"
-					+ "<h1>Instructor Home</h1>" + 
-					"    <div id=\"content\">" +
-					"	 </div> "+
-					"<a href = \"CreateQuestion\"> Add a new question </a><br><br>"+
-					"<a href = \"InstructorDB\"> View all questions </a><br><br>"+
-					"<a href = \"LogoutServlet\"> Logout </a>" 
-					+ "</body>"
-					+ "</html>" ;
-			response.setContentType("text/html");
-			response.getWriter().print(html);
+//			String html = "<html><head><title>Instructor Home</title>" + 
+//					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+//					"<!-- Latest compiled and minified CSS -->\n" + 
+//					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
+//					"    <script src=\"jquery-ui.min.js\"></script>" + 
+//	
+//					"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
+//					"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
+//					
+//					"	 <script src=\"instructor_home.js\"></script>" +
+//					"</head>" + 
+//					"<body>"
+//					+ "<h1>Instructor Home</h1>" + 
+//					"    <div id=\"content\">" +
+//					"	 </div> "+
+//					"<a href = \"CreateQuestion\"> Add a new question </a><br><br>"+
+//					"<a href = \"InstructorDB\"> View all questions </a><br><br>"+
+//					"<a href = \"LogoutServlet\"> Logout </a>" 
+//					+ "</body>"
+//					+ "</html>" ;
+//			response.setContentType("text/html");
+//			response.getWriter().print(html);
+			RequestDispatcher view = request.getRequestDispatcher("/instructorHome.html");
+	        view.forward(request, response);
 		}
 	}
 
