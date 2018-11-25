@@ -1,8 +1,8 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class InstructorQuiz
+ * Servlet implementation class InstructorQuizTimings
  */
-@WebServlet("/InstructorQuiz")
-public class InstructorQuiz extends HttpServlet {
+@WebServlet("/InstructorQuizTimings")
+public class InstructorQuizTimings extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorQuiz() {
+    public InstructorQuizTimings() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +31,23 @@ public class InstructorQuiz extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("id") == null || session.getAttribute("role") == null) {
-			response.sendRedirect("login.html");
-		}
-		
-		String id = (String) session.getAttribute("id");
-		String role = (String) session.getAttribute("role");
-		String qzid= (String) request.getParameter("qzid");
-		if(!role.equals("instructor")) {
-			response.sendRedirect("illegalAccess.html");
-		}
+		String ID = (String) session.getAttribute("id");
+		String  qzid = (String) request.getParameter("qzid");
 		if(qzid == null) {
-			response.sendRedirect("illegalAccess.html");
+			response.getWriter().print("{\"status\": false, \"message\": \"Null value passed as request parameter\"}");
+			return;
 		}
-
-		RequestDispatcher view = request.getRequestDispatcher("instructor_quiz.jsp");
-        view.forward(request, response);  
-	
+		String query =  //TODO: verify query
+				"select start,duration from quiz where qzid = ? ";
+		String res = DbHelper.executeQueryJson(query, 
+				new DbHelper.ParamType[] {
+						DbHelper.ParamType.INT,
+						}, 
+				new Object[] {qzid});
+		
+		PrintWriter out = response.getWriter();
+		out.print(res);
+    	return;
 	}
 
 	/**

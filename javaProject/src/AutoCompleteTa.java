@@ -1,8 +1,8 @@
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class InstructorQuiz
+ * Servlet implementation class AutoCompleteTa
  */
-@WebServlet("/InstructorQuiz")
-public class InstructorQuiz extends HttpServlet {
+@WebServlet("/AutoCompleteTa")
+public class AutoCompleteTa extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorQuiz() {
+    public AutoCompleteTa() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,25 +29,27 @@ public class InstructorQuiz extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		if(session.getAttribute("id") == null || session.getAttribute("role") == null) {
-			response.sendRedirect("login.html");
+		if (session.getAttribute("id") == null){
+			response.sendRedirect("LoginServlet");
+			return;
 		}
-		
-		String id = (String) session.getAttribute("id");
-		String role = (String) session.getAttribute("role");
-		String qzid= (String) request.getParameter("qzid");
-		if(!role.equals("instructor")) {
+		if (!session.getAttribute("role").equals("instructor")){
 			response.sendRedirect("illegalAccess.html");
+			return;
 		}
-		if(qzid == null) {
-			response.sendRedirect("illegalAccess.html");
-		}
+		String partial = (String) request.getParameter("partial");
+		partial = partial + "%";
+		String query = "select name as label, taid as value "
+				+ "from ta "
+				+ "where taid like ? or name like ?";
+		String res = DbHelper.executeQueryJson(query, 
+				new DbHelper.ParamType[] {DbHelper.ParamType.STRING,
+						DbHelper.ParamType.STRING}, 
+				new String[] {partial, partial});
+		PrintWriter out = response.getWriter();
+		out.print(res);
 
-		RequestDispatcher view = request.getRequestDispatcher("instructor_quiz.jsp");
-        view.forward(request, response);  
-	
 	}
 
 	/**
