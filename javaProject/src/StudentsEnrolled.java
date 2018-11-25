@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class InstructorQuizDetails
+ * Servlet implementation class StudentsEnrolled
  */
-@WebServlet("/InstructorQuizDetails")
-public class InstructorQuizDetails extends HttpServlet {
+@WebServlet("/StudentsEnrolled")
+public class StudentsEnrolled extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorQuizDetails() {
+    public StudentsEnrolled() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,20 +38,15 @@ public class InstructorQuizDetails extends HttpServlet {
 		
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
-		String quizid = (String) request.getParameter("quizid");
-		if(!role.equals("instructor")) {
-			response.getWriter().print("{\"status\": false, \"message\": \"User is not a student\"}");
-			return;
-		}
+		String quizid = (String) request.getParameter("qzid");
 		if(quizid == null) {
 			response.getWriter().print("{\"status\": false, \"message\": \"Quiz ID not passed as get parameter\"}");
 			return;
 		}
-		int quizid_int = Integer.parseInt(quizid);
 		String query =
 				"select * "
-				+ "from takes "
-				+ "where sid = ? and secid = ? ;";
+				+ "from quiz natural join section natural join teaches "
+				+ "where iid = ? and qzid = ? ;";
 		List<List<Object>> res = DbHelper.executeQueryList(query, 
 				new DbHelper.ParamType[] { 
 						DbHelper.ParamType.STRING,
@@ -59,14 +54,13 @@ public class InstructorQuizDetails extends HttpServlet {
 				new Object[] {id, quizid});
 		
 		if(res.isEmpty()) {
-			response.getWriter().print(DbHelper.errorJson("Student is not enrolled in the section"));
+			response.getWriter().print(DbHelper.errorJson("Unauthorised access"));
 			return;
 		}
 		String query1 =  //TODO: verify query
-				"select qzid, qzname "
-				+ "from quiz "
-				+ "where secid = ? and start <= now() "
-				+ "order by start desc ;";
+				"select sid "
+				+ "from quiz natural join section natural join takes "
+				+ "where qzid = ? ;";
 		String res1 = DbHelper.executeQueryJson(query1, 
 				new DbHelper.ParamType[] {
 						DbHelper.ParamType.INT,}, 

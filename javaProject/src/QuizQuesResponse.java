@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class InstructorQuizDetails
+ * Servlet implementation class QuizQuesResponse
  */
-@WebServlet("/InstructorQuizDetails")
-public class InstructorQuizDetails extends HttpServlet {
+@WebServlet("/QuizQuesResponse")
+public class QuizQuesResponse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InstructorQuizDetails() {
+    public QuizQuesResponse() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,44 +33,58 @@ public class InstructorQuizDetails extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		if(session.getAttribute("id") == null || session.getAttribute("role") == null) {
-			response.sendRedirect("login.html");
+			response.getWriter().print("{\"status\": false, \"message\": \"Invalid session\"}");
+			return;
 		}
 		
 		String id = (String) session.getAttribute("id");
 		String role = (String) session.getAttribute("role");
-		String quizid = (String) request.getParameter("quizid");
-		if(!role.equals("instructor")) {
-			response.getWriter().print("{\"status\": false, \"message\": \"User is not a student\"}");
-			return;
-		}
-		if(quizid == null) {
+		String quizid = (String) request.getParameter("qzid");
+		String qid = (String) request.getParameter("qid");
+		String sid = "";
+		if(quizid == null || qid == null) {
 			response.getWriter().print("{\"status\": false, \"message\": \"Quiz ID not passed as get parameter\"}");
 			return;
 		}
-		int quizid_int = Integer.parseInt(quizid);
-		String query =
-				"select * "
-				+ "from takes "
-				+ "where sid = ? and secid = ? ;";
-		List<List<Object>> res = DbHelper.executeQueryList(query, 
-				new DbHelper.ParamType[] { 
-						DbHelper.ParamType.STRING,
-						DbHelper.ParamType.INT}, 
-				new Object[] {id, quizid});
-		
-		if(res.isEmpty()) {
-			response.getWriter().print(DbHelper.errorJson("Student is not enrolled in the section"));
+		if(role.equals("student")) {
+			sid = id;
+		}
+		else if(role.equals("instructor")){
+			sid = (String) request.getParameter("sid");
+			String query =
+					"select * "
+					+ "from teaches natural join section natural join quiz "
+					+ "where iid = ? and qzid = ? ;";
+			List<List<Object>> res = DbHelper.executeQueryList(query, 
+					new DbHelper.ParamType[] { 
+							DbHelper.ParamType.STRING,
+							DbHelper.ParamType.INT}, 
+					new Object[] {id, quizid});
+			
+			if(res.isEmpty()) {
+				response.getWriter().print(DbHelper.errorJson("Unauthorised access"));
+				return;
+			}
+		}
+		else if(role.equals("TA")) {
+			
+		}
+		else {
+			response.getWriter().print("{\"status\": false, \"message\": \"Unauthorised access\"}");
 			return;
 		}
-		String query1 =  //TODO: verify query
-				"select qzid, qzname "
-				+ "from quiz "
-				+ "where secid = ? and start <= now() "
-				+ "order by start desc ;";
+		
+		
+		String query1 =
+				"select * "
+				+ "from response "
+				+ "where sid = ? and qid= ? and qzid = ? ;";
 		String res1 = DbHelper.executeQueryJson(query1, 
 				new DbHelper.ParamType[] {
-						DbHelper.ParamType.INT,}, 
-				new Object[] {quizid});
+						DbHelper.ParamType.STRING,
+						DbHelper.ParamType.INT,
+						DbHelper.ParamType.INT}, 
+				new Object[] {sid, qid, quizid});
 		
 		PrintWriter out = response.getWriter();
 		out.print(res1);

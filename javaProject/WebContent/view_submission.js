@@ -7,7 +7,7 @@ function getResponse(qNum, isObjective){
 	$.ajax({
         type: "GET",
         url: "QuizQuesResponse",
-        data: {"qzid": qzid, "qid" :qid},
+        data: {"qzid": qzid, "qid": qid, "sid": sid},
         success: function(data){
         	var data1 = (jQuery.parseJSON(data));
         	if(data1.status){
@@ -25,7 +25,8 @@ function getResponse(qNum, isObjective){
         			}
         		}
         		else{
-        			document.getElementById(""+qNum).value = ans;
+        			console.log(ans);
+        			document.getElementById(""+qNum).innerHTML = ans;
         		}
         	}
         	else{
@@ -41,7 +42,7 @@ function optionList(result, qlist, ans, isObjective, qNum)
     qlist.html('');
     ans.html('');
     if(result != ''){
-    	var str = "";
+    	var str = "<p>Response:</p>";
     	if(isObjective == 'true'){
     		opts[qNum] = new Array(n);
     		for(var i=0;i<n;i++){
@@ -52,14 +53,14 @@ function optionList(result, qlist, ans, isObjective, qNum)
     			str+="<br>" +"<input type=\"checkbox\" name=\"ops\" id ="+ qNum + "o"+ k +" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt ;
             });
     		str+="<br>";
-    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
+//    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
     		qlist.html(str);
     		
     	}
     	else{
-    		str+="<br>" +"<input type=\"text\"  id ="+ qNum +" name=\"ans\">";
+    		str+="<p  id ="+ qNum +"></p>";
     		str+="<br>";
-    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
+//    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
     		qlist.html(str);
     	}
     }
@@ -80,7 +81,7 @@ function questionList(result, list, qzid)
 			list.append(answer);
     		$.ajax({
 		        type: "GET",
-		        url: "StudentQuizQuesOptions",
+		        url: "InstructorQuizQuesOptions",
 		        data: {"qzid": qzid, "qid": v.qid},
 		        success: function(data){
 		        	var data1 = (jQuery.parseJSON(data));
@@ -105,13 +106,12 @@ function questionList(result, list, qzid)
 }
 
 $(document).ready(function() {
-//	document.title = "Course:"
     document.getElementById("content").innerHTML =
-            "<div id = \"questions\"></div><br>";
+            "<h3>"+sid+"</h3><br><div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
     $.ajax({
         type: "GET",
-        url: "StudentQuizQuestions",
+        url: "InstructorQuizQuestions",
         data: {"qzid": qzid},
         success: function(data){
 //        	console.log(data);
