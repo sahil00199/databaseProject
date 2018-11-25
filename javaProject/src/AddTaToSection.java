@@ -54,7 +54,6 @@ public class AddTaToSection extends HttpServlet {
             	DbHelper.setParams(stmt, paramTypes, params);
             	recordsUpdated = stmt.executeUpdate();
             	conn.commit();
-            	response.getWriter().print("{\"status\":true, \"message\":\"\"}");
             }
             catch(Exception ex)
             {

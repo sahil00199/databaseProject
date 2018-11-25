@@ -2,38 +2,6 @@ var n =10;
 
 var questions = new Array(200);
 var opts = new Array(200);
-function getResponse(qNum, isObjective){
-	var qid = questions[qNum];
-	$.ajax({
-        type: "GET",
-        url: "QuizQuesResponse",
-        data: {"qzid": qzid, "qid" :qid},
-        success: function(data){
-        	var data1 = (jQuery.parseJSON(data));
-        	if(data1.status){
-        	    var ans = "";
-        		$.each(data1.data, function(k, v) {
-        			ans = v.answer;
-        		});
-        		if(isObjective == 'true'){
-        			var arr = ans.split(" ");
-        			for(var i=0;i< arr.length; i++){
-        				if(arr[i] != ""){
-        					selectOption(qNum, parseInt(arr[i]));
-        					document.getElementById(qNum + "o" + arr[i]).checked = true;	
-        				}
-        			}
-        		}
-        		else{
-        			document.getElementById(""+qNum).value = ans;
-        		}
-        	}
-        	else{
-        		console.log(data1.message);
-        	}
-        }
-    });  
-}
 
 function optionList(result, qlist, ans, isObjective, qNum)
 {
@@ -44,25 +12,21 @@ function optionList(result, qlist, ans, isObjective, qNum)
     	var str = "";
     	if(isObjective == 'true'){
     		opts[qNum] = new Array(n);
-    		for(var i=0;i<n;i++){
-    			opts[qNum][i]=0;
-    		}
-    		
+    		for(var i=0;i<n;i++)
+    			{
+    				opts[qNum][i]=0;
+    			}
     		$.each(result, function(k, v) {
-    			str+="<input type=\"checkbox\" name=\"ops\" id ="+ qNum + "o"+ k +" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt + "<br>" ;
+    			str+="<br>" +"<input type=\"checkbox\" name=\"ops\" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt ;
             });
     		str+="<br>";
-    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
-    		str+="<div class='separator2'></div>"
+    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+")\" > Save answer</button> </form><br>";
     		qlist.html(str);
-    		
     	}
     	else{
-    		str+="<br>" +"<input type=\"text\"  id ="+ qNum +" name=\"ans\">";
-    		str+="<br>";
-    		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
-    		str+="<div class='separator2'></div>"
-    		qlist.html(str);
+    		$.each(result, function(k, v) {
+    			//ans.append(v.opt);
+            });
     	}
     }
 }
@@ -94,7 +58,6 @@ function questionList(result, list, qzid)
 			                v.isobjective,
 			                k
 			            );
-			            getResponse(k, v.isobjective);
 		        	}
 		        	else{
 		        		alert(data1.message);
@@ -111,8 +74,6 @@ $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
-    console.log("sdfsaf");
-    console.log(qzid);
     $.ajax({
         type: "GET",
         url: "StudentQuizQuestions",
@@ -129,7 +90,7 @@ $(document).ready(function() {
         	}
         	else{
         		alert(data1.message);
-        		//window.location.replace("illegalAccess.html");
+        		window.location.replace("illegalAccess.html");
         	}
         }
     });   
@@ -140,22 +101,17 @@ function selectOption(qNum,optNum)
 	opts[qNum][optNum] = 1- opts[qNum][optNum];
 }
 
-function putResponse(qNum, isObjective)
+function putResponse(qNum)
 {
-	var s="";
 	var qid = questions[qNum];
-	if(isObjective){
-		for(var i=0;i<n;i++)
+	var s="";
+	for(var i=0;i<n;i++)
 		{
 			if(opts[qNum][i]==1)
 				{
 				s+=i+ " ";
-			}
+				}
 		}
-	}
-	else{
-		s = document.getElementById(""+qNum).value;
-	}
 	$.ajax({
         type: "GET",
         url: "PutResponse",
@@ -175,3 +131,5 @@ function putResponse(qNum, isObjective)
 	
 	
 }
+
+
