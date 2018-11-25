@@ -44,7 +44,7 @@ public class InstructorQuizDetails extends HttpServlet {
 			return;
 		}
 		if(quizid == null) {
-			response.getWriter().print("{\"status\": false, \"message\": \"Quiz ID not passed as get parameter\"}");
+			response.getWriter().print("{\"status\": false, \"message\": \"Section ID not passed as get parameter\"}");
 			return;
 		}
 		int quizid_int = Integer.parseInt(quizid);

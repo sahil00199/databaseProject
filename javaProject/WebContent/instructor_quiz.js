@@ -101,7 +101,6 @@ $(document).ready(function() {
     document.getElementById("heading").innerHTML =  "Quiz";
     document.getElementById("content").innerHTML =
         "<p><a id=\"newQuestionQuiz\" href=\"AddQuizQuestion?qzid=" + qzid + "\"> Add Question</a></p>\n"+
-        "<button type=\"button\" onclick=\"location.href='AllSubmissions?qzid="+ qzid +"';\" >View all submissions</button>" +
         "<div id = \"questions\"></div><br>";
     questions();
 });
