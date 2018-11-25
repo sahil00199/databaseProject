@@ -78,8 +78,8 @@ function validateForm(){
 		  if (this.readyState == 4 && this.status == 200) {
 			var response = JSON.parse(this.responseText);
 			if(response.status){
-				document.getElementById("error").innerHTML = "Question created successfully<br>Proceed to the <a href=\"InstructorHome\"> Home</a> Page";
-				document.getElementById("error").style.color = "green";
+				document.getElementById("errored").innerHTML = "Question created successfully<br>Proceed to the <a href=\"InstructorHome\"> Home</a> Page";
+				document.getElementById("errored").style.color = "green";
 			}
 			else{
 				setError(response.message);
