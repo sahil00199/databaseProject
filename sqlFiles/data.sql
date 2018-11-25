@@ -14,6 +14,14 @@ insert into instructor values('i5', 'i5', 'i5@email.com', 'i5');
 insert into instructor values('i6', 'i6', 'i6@email.com', 'i6');
 insert into instructor values('i7', 'i7', 'i7@email.com', 'i7');
 
+insert into instructor values('t1', 't1', 't1@email.com', 't1');
+insert into instructor values('t2', 't2', 't2@email.com', 't2');
+insert into instructor values('t3', 't3', 't3@email.com', 't3');
+insert into instructor values('t4', 't4', 't4@email.com', 't4');
+insert into instructor values('t5', 't5', 't5@email.com', 't5');
+insert into instructor values('t6', 't6', 't6@email.com', 't6');
+insert into instructor values('t7', 't7', 't7@email.com', 't7');
+
 insert into course values('CS101', 'Intro to Programming');
 insert into course values('CS201', 'Mid level Programming');
 insert into course values('CS301', 'Adv level Programming');
