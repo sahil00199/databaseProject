@@ -20,6 +20,7 @@
 
 -- Adding various types of questions (such as numeric answer etc.), not radio options in login.html, remove random alerts (for ex. on successful save of student's answer).
 
+-- when instructor adds TA, check if instructor is actually of that section
 
 
 -- add weightage to insert quiz

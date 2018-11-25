@@ -76,6 +76,7 @@ public class InstructorSection extends HttpServlet {
 				"    <div id=\"content\">" +
 				"	 </div> "
 				+ " <a id=\"linker\" href=\"google.com\">Create Quiz</a><br><div id=\"newConvo\"></div>"
+				+ " <a id=\"talinker\" href=\"google.com\">Add TA</a><br><div id=\"tanewConvo\"></div>"
 				+ "</body>"
 				+ "</html>" ;
 		response.setContentType("text/html");
