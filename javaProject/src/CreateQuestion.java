@@ -74,7 +74,7 @@ public class CreateQuestion extends HttpServlet {
 //					+ "</html>" ;
 //			response.setContentType("text/html");
 //			response.getWriter().print(html);
-			RequestDispatcher view = request.getRequestDispatcher("/contact.html");
+			RequestDispatcher view = request.getRequestDispatcher("/createQuestion.html");
 	        view.forward(request, response);  
 		}
 	}
