@@ -42,6 +42,7 @@ public class InstructorHome extends HttpServlet {
 		else {
 			String html = "<html><head><title>Instructor Home</title>" + 
 					"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+					"<!-- Latest compiled and minified CSS -->\n" + 
 					"    <script src=\"jquery.dataTables.min.js\"></script>" + 
 					"    <script src=\"jquery-ui.min.js\"></script>" + 
 	
