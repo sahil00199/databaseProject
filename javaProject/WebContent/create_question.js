@@ -25,7 +25,10 @@ $(document).ready(function() {
 //	        "<input class=\"button\" name=\"submit\" type=\"submit\" value=\"Submit\" />"+
 //	        "</form>"+
 //            "<div id = \"contentList\"></div><br>";
-    $("#newtop").autocomplete({
+    console.log($("#newtop").autocomplete);
+    console.log(document.getElementById('newtop'));
+    console.log(document.getElementById('newtop').innerHTML);
+	$("#newtop").autocomplete({
         source : function(request,response){
             var xhttp;
             xhttp = new XMLHttpRequest();
@@ -57,6 +60,7 @@ function setError(temp) {
 	document.getElementById("error").innerHTML = temp;
 }
 function validateForm(){
+	console.log("there is nothgin");
 	var max_limit_ques = 2000;
 	var max_limit_ops = 1000;
 	var ques = document.getElementById("question").value;
@@ -157,16 +161,24 @@ function switching(ind) {
 }
 
 function makeS() {
+	console.log("this");
 	isObjective = 0;
-	document.getElementById("adding").innerHTML = "Answer: <input type='text' name='answer' id='answer' maxlength='1000'>";
-	document.getElementById("options").innerHTML = "";
+	document.getElementById("mainarea").innerHTML = "Answer: <input class=\"form-control\" type='text' name='answer' id='answer' maxlength='1000'>";
+//	document.getElementById("options").innerHTML = "";
 	/* console.log("madeS"); */
 }
 function makeO() {
 	options.length = 0;
 	isCorrect.length = 0;	
 	isObjective = 1;
-	document.getElementById("adding").innerHTML = 'Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add Option</button>';
+	document.getElementById("mainarea").innerHTML = '<div class="form-group">'+
+    '<label>Add a new option</label>'+
+    '<input type="text" name="newop" id="newop" maxlength="1000" class="form-control">'+
+    '<!-- <textarea class="form-control" name="message" rows="8"></textarea> -->'+
+'</div>'+
+'<button type="button" onclick="addOption()" class="btn"> Add Options</button></p>'+
+'<p id="options">Current Options:</p>;';
+//	document.getElementById("adding").innerHTML = 'Add a new option <br> <input type="text" name="newop" id="newop" maxlength="1000"> <br><br><button type="button" onclick="addOption()"> Add Option</button>';
 	document.getElementById("options").innerHTML = "Current Options:";
 	/* console.log("madeO");	 */
 }
