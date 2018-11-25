@@ -49,10 +49,11 @@ function optionList(result, qlist, ans, isObjective, qNum)
     		}
     		
     		$.each(result, function(k, v) {
-    			str+="<br>" +"<input type=\"checkbox\" name=\"ops\" id ="+ qNum + "o"+ k +" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt ;
+    			str+="<input type=\"checkbox\" name=\"ops\" id ="+ qNum + "o"+ k +" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt + "<br>" ;
             });
     		str+="<br>";
     		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
+    		str+="<div class='separator2'></div>"
     		qlist.html(str);
     		
     	}
@@ -60,6 +61,7 @@ function optionList(result, qlist, ans, isObjective, qNum)
     		str+="<br>" +"<input type=\"text\"  id ="+ qNum +" name=\"ans\">";
     		str+="<br>";
     		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+", "+ isObjective+ ")\" > Save answer</button> </form><br>";
+    		str+="<div class='separator2'></div>"
     		qlist.html(str);
     	}
     }
@@ -109,6 +111,8 @@ $(document).ready(function() {
     document.getElementById("content").innerHTML =
             "<div id = \"questions\"></div><br>";
     document.getElementById("heading").innerHTML =  "Quiz";
+    console.log("sdfsaf");
+    console.log(qzid);
     $.ajax({
         type: "GET",
         url: "StudentQuizQuestions",
@@ -125,7 +129,7 @@ $(document).ready(function() {
         	}
         	else{
         		alert(data1.message);
-        		window.location.replace("illegalAccess.html");
+        		//window.location.replace("illegalAccess.html");
         	}
         }
     });   
@@ -171,5 +175,3 @@ function putResponse(qNum, isObjective)
 	
 	
 }
-
-
