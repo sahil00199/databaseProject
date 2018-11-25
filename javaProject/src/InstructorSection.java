@@ -1,6 +1,8 @@
 
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,28 +62,28 @@ public class InstructorSection extends HttpServlet {
 			response.getWriter().print(html);
 			return;
 		}
-		String html = "<html><head><title>Section</title>" + 
-				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
-				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
-				"    <script src=\"jquery-ui.min.js\"></script>" + 
-
-				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
-				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
-
-				"    <script> var secid = " + secid + " </script>" +
-				"	 <script src=\"instructor_section.js\"></script>" +
-				"</head>" + 
-				"<body>"
-				+ "<h1 id = \"heading\"></h1>" + 
-				"    <div id=\"content\">" +
-				"	 </div> "
-				+ " <a id=\"linker\" href=\"google.com\">Create Quiz</a><br><div id=\"newConvo\"></div>"
-				+ " <a id=\"talinker\" href=\"google.com\">Add TA</a><br><div id=\"tanewConvo\"></div>"
-				+ "</body>"
-				+ "</html>" ;
-		response.setContentType("text/html");
-		response.getWriter().print(html);
-	
+//		String html = "<html><head><title>Section</title>" + 
+//				"    <script src=\"jquery-3.3.1.js\"> </script>" + 
+//				"    <script src=\"jquery.dataTables.min.js\"></script>" + 
+//				"    <script src=\"jquery-ui.min.js\"></script>" + 
+//
+//				"    <link rel=\"stylesheet\" href=\"jquery-ui.css\" />" + 
+//				"    <link rel=\"stylesheet\" href=\"jquery.dataTables.min.css\"/>" + 
+//
+//				"    <script> var secid = " + secid + " </script>" +
+//				"	 <script src=\"instructor_section.js\"></script>" +
+//				"</head>" + 
+//				"<body>"
+//				+ "<h1 id = \"heading\"></h1>" + 
+//				"    <div id=\"content\">" +
+//				"	 </div> "
+//				+ " <a id=\"linker\" href=\"google.com\">Create Quiz</a><br><div id=\"newConvo\"></div>"
+//				+ "</body>"
+//				+ "</html>" ;
+//		response.setContentType("text/html");
+//		response.getWriter().print(html);
+		RequestDispatcher view = request.getRequestDispatcher("/InstructorSection.jsp");
+        view.forward(request, response);
 	}
 
 	/**
