@@ -1,7 +1,7 @@
 var n =10;
 
-var questions = new Array(100);
-var opts = new Array(100);
+var questions = new Array(200);
+var opts = new Array(200);
 
 function optionList(result, qlist, ans, isObjective, qNum)
 {
@@ -12,21 +12,12 @@ function optionList(result, qlist, ans, isObjective, qNum)
     	var str = "";
     	if(isObjective == 'true'){
     		opts[qNum] = new Array(n);
-    		console.log("Came here------\n");
     		for(var i=0;i<n;i++)
     			{
     				opts[qNum][i]=0;
     			}
-    		console.log("Came here1------\n");
     		$.each(result, function(k, v) {
-    			k1=k+1;
-    			//'<br> <input type="checkbox" name="ops" value="' + options.length +'" onclick="switching(' + options.length + ')"> ' + newop
-    			//console.log("Came here------");
     			str+="<br>" +"<input type=\"checkbox\" name=\"ops\" onclick=\"selectOption("+qNum+","+k+")\">"+ v.opt ;
-//    			if(v.iscorrect =='true') {
-//    				//ans.append(k1.toString() + "<br>");
-//    			}
-    			
             });
     		str+="<br>";
     		str+="<form> <button type=\"button\" onclick=\"putResponse("+qNum+")\" > Save answer</button> </form><br>";
@@ -50,7 +41,7 @@ function questionList(result, list, qzid)
 			var question = "<p>Q."+ k1.toString() + ": " + v.problem +"     [Marks:"+v.maxmarks.toString()+ "] </p>" +
 					" <p id = op" + v.qid + " > </p>";
 			list.append(question);
-			answer = "<p id = ans" + v.qid + "> </p><br>";
+			var answer = "<p id = ans" + v.qid + "> </p><br>";
 			questions[k] = v.qid;
 			list.append(answer);
     		$.ajax({

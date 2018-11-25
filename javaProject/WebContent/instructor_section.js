@@ -16,7 +16,15 @@ $(document).ready(function() {
             "<div id = \"contentList\"></div><br>";
     document.getElementById("heading").innerHTML =
         "Section Details";
-    $.ajax({
+//    document.getElementById("content").innerHTML +=
+//        "<button type=\"button\" onclick=window.location.replace(\"illegalAccess.html\")>Login</button>";
+    
+    loadQs();
+});
+
+function loadQs(){
+	$('#contentList').html('');
+	$.ajax({
         type: "GET",
         url: "InstructorQuizzes",
         data: {"secid": secid},
@@ -35,5 +43,54 @@ $(document).ready(function() {
         		console.log(data1.message);
         	}
         }
-    });   
+    });
+}
+
+$(document).ready(function() {
+    $("#linker").click(function(e)
+    {
+        e.preventDefault();
+        showCreateQuiz();
+    }  );
 });
+
+function showCreateQuiz()
+{
+    var currentHTML = "<form>" +
+    " Enter the qzname: <input type=\"text\" id = \"qname\" name=\"qname\">"+
+    " Enter the starttime: <input type=\"text\" id = \"sttime\" name=\"sttime\" placeholder=\"YYYY-MM-DD HH:MM:SS\">"+
+    " Enter the duration: <input type=\"text\" id = \"dur\" name=\"dur\" placeholder=\"days HH:MM:SS\">"+
+    " Enter the maximum marks: <input type=\"text\" id = \"maxmarks\" name=\"maxmarks\">"+
+    " Enter the weightage: <input type=\"text\" id = \"weightage\" name=\"weightage\">" +
+    "<button type=\"button\" onclick=\"createNewQuiz()\">Submit</button>"+
+//    "value=\"Submit\" />"+
+    "</form>";
+    document.getElementById("newConvo").innerHTML = currentHTML;
+}
+
+function createNewQuiz()
+{
+//	console.log("here");
+	var starttime = document.getElementById('sttime').value;
+	var duration = document.getElementById('dur').value;
+	var maxmarks = document.getElementById('maxmarks').value;
+	var weightage = document.getElementById('weightage').value;
+	var qzname = document.getElementById('qname').value;
+	var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function(){
+         if (this.readyState == 4 && this.status == 200){
+		    json_object = JSON.parse(this.responseText);
+		    if(!(json_object.status)){
+		        alert(json_object.message);
+		    }
+		    else{
+		        alert("Quiz created successfully!");
+		    }
+		    loadQs();
+         }
+    }
+    xhttp.open("GET", "CreateQuiz?coursen=" + qzname + "&secid="+ secid +"&starttime="+starttime+"&duration="+duration+"&maxmarks="+maxmarks+"&weightage="+weightage, true);
+    xhttp.send();
+    loadQs();
+}

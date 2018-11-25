@@ -4,10 +4,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -23,7 +27,8 @@ public class DbHelper {
 	protected static enum ParamType{
 		STRING,
 		INT,
-		BOOL
+		BOOL,
+		TIMESTAMP
 	}
 	
 	/**
@@ -157,7 +162,7 @@ public class DbHelper {
 
 	public static final void setParams(PreparedStatement stmt,
 			ParamType[] paramTypes, 
-			Object[] params) throws SQLException {
+			Object[] params) throws SQLException, ParseException {
 		List<ParamType> paramTypesList = Arrays.asList(paramTypes);
 		List<Object> paramsList = Arrays.asList(params);
 		
@@ -174,6 +179,11 @@ public class DbHelper {
 			else if(type.equals(ParamType.BOOL)) {
 				boolean theBool = ((String) param).equals("true");
 				stmt.setBoolean(i+1, theBool);
+			}
+			else if(type.equals(ParamType.TIMESTAMP)) {
+				SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+				Date date = format.parse((String)param);
+				stmt.setTimestamp(i+1, new java.sql.Timestamp(date.getTime()));
 			}
 		}
 	}
